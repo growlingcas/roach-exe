@@ -1,0 +1,364 @@
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="mark" viewBox="4 36 192 128"><path d="M8,100 C48,40 152,40 192,100 C152,160 48,160 8,100 Z M26,100 C62,56 138,56 174,100 C138,144 62,144 26,100 Z" fill="currentColor" fill-rule="evenodd"/><path d="M100,46 C114,70 118,88 110,110 L100,154 L90,110 C82,88 86,70 100,46 Z" fill="currentColor" fill-rule="nonzero"/></symbol><symbol id="wordmark" viewBox="-2 -6 378 112"><path d="M8.00,0.00 L23.00,0.00 L23.00,100.00 L8.00,100.00 Z" fill="currentColor" fill-rule="nonzero"/><path d="M22.5,0 L42.3,0 C69.58000000000001,0 69.58000000000001,57 42.3,57 L22.5,57 Z M22.5,5.2 L36.9,5.2 C54.0,5.2 54.0,51.8 36.9,51.8 L22.5,51.8 Z" fill="currentColor" fill-rule="evenodd"/><path d="M0,100 L31,100 L31,96.6 Q23,96.6 23,90.6 L8,90.6 Q8,96.6 0,96.6 Z" fill="currentColor" fill-rule="nonzero"/><path d="M0,0 L23,0 L23,3.4 Q23,3.4 23,9.4 L8,9.4 Q8,3.4 0,3.4 Z" fill="currentColor" fill-rule="nonzero"/><path d="M93.00,0.00 L108.00,0.00 L108.00,100.00 L93.00,100.00 Z" fill="currentColor" fill-rule="nonzero"/><path d="M107.5,0 L126.4,0 C152.44,0 152.44,53 126.4,53 L107.5,53 Z M107.5,5.2 L121.18,5.2 C137.425,5.2 137.425,47.8 121.18,47.8 L107.5,47.8 Z" fill="currentColor" fill-rule="evenodd"/><path d="M118.00,50.00 L134.00,50.00 L157.00,100.00 L140.00,100.00 Z" fill="currentColor" fill-rule="nonzero"/><path d="M85,100 L116,100 L116,96.6 Q108,96.6 108,90.6 L93,90.6 Q93,96.6 85,96.6 Z" fill="currentColor" fill-rule="nonzero"/><path d="M85,0 L108,0 L108,3.4 Q108,3.4 108,9.4 L93,9.4 Q93,3.4 85,3.4 Z" fill="currentColor" fill-rule="nonzero"/><path d="M137.00,100.00 L164.00,100.00 L164.00,96.60 L137.00,96.60 Z" fill="currentColor" fill-rule="nonzero"/><path d="M221.80,-4.00 L225.80,-4.00 L192.70,100.00 L187.50,100.00 Z" fill="currentColor" fill-rule="nonzero"/><path d="M221.80,-4.00 L226.60,-4.00 L261.00,100.00 L244.00,100.00 Z" fill="currentColor" fill-rule="nonzero"/><path d="M202.00,67.00 L247.00,67.00 L248.00,72.20 L201.00,72.20 Z" fill="currentColor" fill-rule="nonzero"/><path d="M180.00,100.00 L201.20,100.00 L201.20,96.60 L180.00,96.60 Z" fill="currentColor" fill-rule="nonzero"/><path d="M236.00,100.00 L268.00,100.00 L268.00,96.60 L236.00,96.60 Z" fill="currentColor" fill-rule="nonzero"/><path d="M293.00,0.00 L310.00,0.00 L336.50,53.00 L321.50,53.00 Z" fill="currentColor" fill-rule="nonzero"/><path d="M359.30,0.00 L365.00,0.00 L336.50,52.00 L329.80,52.00 Z" fill="currentColor" fill-rule="nonzero"/><path d="M321.50,52.00 L336.50,52.00 L336.50,100.00 L321.50,100.00 Z" fill="currentColor" fill-rule="nonzero"/><path d="M287.00,0.00 L317.00,0.00 L317.00,3.40 L287.00,3.40 Z" fill="currentColor" fill-rule="nonzero"/><path d="M351.80,0.00 L371.00,0.00 L371.00,3.40 L351.80,3.40 Z" fill="currentColor" fill-rule="nonzero"/><path d="M313.5,100 L344.5,100 L344.5,96.6 Q336.5,96.6 336.5,90.6 L321.5,90.6 Q321.5,96.6 313.5,96.6 Z" fill="currentColor" fill-rule="nonzero"/></symbol>
+</svg>
+<div class="grain" aria-hidden="true"></div>
+
+<header class="nav">
+  <div class="nav-in">
+    <a class="logo" href="#home" aria-label="PRAY home"><svg aria-hidden="true"><use href="#mark"/></svg><svg class="logo-wm" aria-hidden="true"><use href="#wordmark"/></svg></a>
+    <nav class="nav-links" id="navLinks" aria-label="Main">
+      <a href="#offering" data-nav="offering">Offering</a>
+      <a href="#trade" data-nav="trade">Trade</a>
+      <a href="#card" data-nav="card">Card</a>
+      <a href="#markets" data-nav="markets">Markets</a>
+    </nav>
+    <div class="nav-sp"></div>
+    <div class="nav-x">
+      <span class="x-pill" id="xPill"><svg width="12" height="12" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M18.2 2h3.4l-7.4 8.5L23 22h-6.8l-5.3-6.9L4.8 22H1.4l7.9-9.1L1 2h7l4.8 6.3L18.2 2Zm-1.2 18h1.9L7.1 3.9H5.1L17 20Z"/></svg><span id="xPillName"></span></span>
+      <a class="btn sm" id="navCta" href="#offering">Claim offering</a>
+      <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<!-- ================= HOME ================= -->
+<main id="view-home" class="view" data-view="home">
+  <section class="hero" aria-label="Introduction">
+    <div class="hero-img" role="img" aria-label="Black and white statue of a warrior raising a fist and holding a spear against a stormy sky" style="background-image:var(--img-spear)"></div>
+    <div class="hero-grid wrap">
+    <div class="hero-copy">
+      <div class="eyebrow carve"><i></i>Perpetuals · Real-world assets · Card</div>
+      <h1 aria-label="PRAY"><span>P</span><span>R</span><span>A</span><span>Y</span></h1>
+      <p class="lede">Trade like the gods are watching.</p>
+      <p class="sub">PRAY is a perpetual futures exchange for crypto and real-world assets, with a card that spends what you earn. Before the gates open, claim an offering of $0.50 to $10 in under a minute.</p>
+      <div class="cta-row">
+        <a class="btn solid" href="#claim" id="heroClaim">Claim your offering</a>
+        <a class="btn ghost" href="#descent">Begin the descent</a>
+      </div>
+      <p class="hero-note">Trading is not live yet. No deposits, no gas: one free signature to claim.</p>
+    </div>
+      <aside class="claim" id="claim" aria-label="Claim your offering">
+        <div class="cl-head">
+          <div><span class="carve">Your offering</span><div class="cl-amt num" id="clAmt">$0<span>.00</span></div><small id="clSub">Up to $10 on your trading balance</small></div>
+          <span class="cl-badge carve">Pre-launch</span>
+        </div>
+        <div class="cl-poolbox" id="clPoolBox" aria-label="Offering pool">
+          <div class="cl-pool-top"><span class="carve">Offering pool</span><span class="num" id="clPoolPct">0%</span></div>
+          <div class="cl-pool-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="clPoolBar"><i id="clPoolFill"></i></div>
+          <div class="cl-pool-row num"><span id="clPoolRes">$0 reserved</span><span id="clPoolCap">of $25,000</span></div>
+          <small class="cl-pool-claims num" id="clPool">Be among the first to claim</small>
+        </div>
+        <form class="cl-x" id="clXForm" autocomplete="off">
+          <label for="clHandle">Your X username</label>
+          <small>Your offering is reserved for this account.</small>
+          <div class="cl-field"><span aria-hidden="true">@</span><input id="clHandle" maxlength="15" placeholder="username" spellcheck="false" autocapitalize="off"><button class="btn solid sm" type="submit">Continue</button></div>
+          <p class="cl-err" id="clXErr" hidden></p>
+        </form>
+        <p class="cl-invited" id="clInvited" hidden></p>
+        <div class="cl-bound" id="clBound" hidden><span class="cl-dot"></span><span>@<b id="clName"></b></span><button type="button" id="clChange">Change</button></div>
+        <div class="cl-prog"><div class="cl-bar"><i id="clBar"></i></div><small id="clCount">0 of 1 done</small></div>
+        <ul class="cl-tasks" id="clTasks">
+          <li class="cl-task" data-t="follow"><span class="cl-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M15 19v-1.5a3.5 3.5 0 0 0-3.5-3.5h-5A3.5 3.5 0 0 0 3 17.5V19M9 10.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM19 8v6M22 11h-6"/></svg></span><div class="cl-tx"><b>Follow PRAY on X</b><small class="cl-st">One tap on X.</small></div><button type="button" class="cl-btn">Follow</button></li>
+          <li class="cl-task" data-t="like"><span class="cl-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 20s-7-4.4-9-8.5C1.6 8.4 3.3 5 6.5 5c2 0 3.1 1.1 3.8 2.2h3.4C14.4 6.1 15.5 5 17.5 5c3.2 0 4.9 3.4 3.5 6.5C19 15.6 12 20 12 20z"/></svg></span><div class="cl-tx"><b>Like the launch post</b><small class="cl-st">One like on our pinned announcement.</small></div><button type="button" class="cl-btn">Like</button></li>
+          <li class="cl-task" data-t="rt"><span class="cl-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 7h10v6M17 13l-3-3M17 13l3-3M17 17H7v-6M7 11l-3 3M7 11l3 3"/></svg></span><div class="cl-tx"><b>Repost it</b><small class="cl-st">Share the announcement with your followers.</small></div><button type="button" class="cl-btn">Repost</button></li>
+          <li class="cl-task" data-t="wallet"><span class="cl-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 7h16a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7zm0 0V6a2 2 0 0 1 2-2h11M16.5 13h.01"/></svg></span><div class="cl-tx"><b>Add your wallet</b><small class="cl-st">EVM: Hyperliquid, Lighter, Derive. Solana: transactions, age, volume.</small></div><button type="button" class="cl-btn">Add</button></li>
+          <li class="cl-task" data-t="ref"><span class="cl-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M16 19v-1.5a3.5 3.5 0 0 0-3.5-3.5h-5A3.5 3.5 0 0 0 4 17.5V19M10 10.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM20 19v-1.5a3.5 3.5 0 0 0-2.5-3.4M15.5 3.6a3.5 3.5 0 0 1 0 6.8"/></svg></span><div class="cl-tx"><b>Invite friends</b><small class="cl-st">Earn 10% of every friend's offering. Unlocks after you claim.</small></div><button type="button" class="cl-btn">Invite</button></li>
+        </ul>
+        <form class="cl-wform" id="clWForm" hidden autocomplete="off"><div class="cl-chain" role="radiogroup" aria-label="Wallet network"><button type="button" role="radio" data-chain="evm" aria-checked="true">EVM</button><button type="button" role="radio" data-chain="sol" aria-checked="false">Solana</button></div><input id="clWallet" placeholder="0x… wallet address" maxlength="44" spellcheck="false" aria-label="Wallet address"><button class="btn solid sm" type="submit">Save</button><p class="cl-err" id="clWErr" hidden></p></form>
+        <div class="cl-ref" id="clRef" hidden>
+          <div class="cl-ref-link"><input id="clRefLink" readonly aria-label="Your referral link"><button class="btn solid sm" id="clRefCopy" type="button">Copy</button></div>
+          <div class="cl-ref-row"><span>Counts when your friend claims.</span><a class="cl-link" id="clRefShare" href="#" target="_blank" rel="noopener">Share on X</a></div>
+        </div>
+        <button class="btn solid cl-go" id="clClaim" type="button" disabled>Claim offering</button>
+        <div class="cl-log num" id="clLog" aria-live="polite"></div>
+        <div class="cl-done" id="clDone" hidden><a class="cl-balance" href="#trade" id="clBalance"><span><small class="carve">Trading balance</small><b class="num" id="clBalAmt">$0.00</b></span><span class="cl-bal-go">Check balance <i aria-hidden="true">→</i></span></a><button class="cl-link" type="button" id="clRedo">Start over</button></div>
+        
+        <p class="cl-fine">No deposit, no gas. One free signature proves the wallet is yours.</p>
+      </aside>
+    </div>
+    <div class="ticker" aria-label="Market prices"><div class="ticker-track" id="ticker"></div></div>
+  </section>
+
+  <section class="descent" id="descent" aria-label="The descent">
+    <div class="t-stage" id="tStage">
+      <div class="t-world" id="tWorld"></div>
+      <div class="t-whiteout" id="tWhite"></div>
+      <div class="t-hud carve"><span>Descent</span><div class="t-bar"><i id="tBar"></i></div><span id="tDepth" class="num">0 / VI</span></div>
+      <div class="t-hud-r carve">Scroll to descend</div>
+    </div>
+  </section>
+
+  <section class="block offering" id="offering" aria-labelledby="offTitle">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="carve">The Offering</span>
+        <h2 id="offTitle"><span class="hook-amt">$0.50 – $10</span> on your trading balance for your activity.</h2>
+        <p class="oracle-line">The oracle weighs <em>your record.</em></p>
+        <p>Enter your X username, finish the tasks and add your EVM wallet. Your score comes from your presence on X and your trading history on Hyperliquid, Lighter and Derive, or, for a Solana wallet, its transactions, age and volume. Every offering lands between $0.50 and $10, paid to your PRAY trading balance or your PRAY Card.</p>
+      </div>
+      <div class="off-grid">
+        <div class="off-card"><span class="carve">Your PRAY Card</span><div class="vcard-wrap" data-vcard></div></div>
+        <div class="off-info">
+          <span class="carve">How your offering is weighed</span>
+          <div class="breakdown" id="bdown"></div>
+          <div class="off-total"><div><small class="carve">Score</small><b class="num" id="scoreTxt">—</b></div><div><small class="carve">Offering</small><b id="amtTxt">—</b></div></div>
+          <a class="btn dark" href="#claim" id="offCta">Claim at the top</a>
+          <p class="fine">Scores are a preview and are confirmed at launch. X activity and wallet history are checked again before payout.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="paths" aria-label="Choose your path">
+    <a class="path" href="#trade">
+      <div class="bg" style="background-image:var(--img-perseus)" role="img" aria-label="Bronze statue of Perseus holding the head of Medusa"></div>
+      <div><span class="carve" style="color:var(--dust)">Path of the trader</span><h3>Trade</h3><p>Perpetual futures on 15 crypto majors and 10 real-world assets: gold, silver, equities, indices and FX. One account, one margin balance.</p><span class="go carve">Enter the terminal <i></i></span></div>
+    </a>
+    <a class="path" href="#card">
+      <div class="bg" style="background-image:var(--img-atlas)" role="img" aria-label="A figure carrying a giant boulder on his shoulders"></div>
+      <div><span class="carve" style="color:var(--dust)">Path of the bearer</span><h3>Card</h3><p>Reserve the PRAY Card with your X account and your PRAY account. Spend your trading balance and your offering in the world above.</p><span class="go carve">Reserve the card <i></i></span></div>
+    </a>
+  </div>
+
+  <section class="block" id="markets" aria-labelledby="mkTitle">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="carve">Markets</span>
+        <h2 id="mkTitle">Twenty-five <em>altars.</em></h2>
+        <p>The launch list: the 15 most traded crypto perpetuals and the 10 most traded real-world asset markets. Select one to open it in the terminal.</p>
+      </div>
+      <div class="mkt-tabs" role="tablist" aria-label="Market class">
+        <button class="tab" role="tab" aria-selected="true" data-mk="crypto">Crypto · 15</button>
+        <button class="tab" role="tab" aria-selected="false" data-mk="rwa">Real-world assets · 10</button>
+      </div>
+      <div class="tbl-wrap">
+        <table class="mk" aria-label="Market prices">
+          <thead><tr><th>Market</th><th>Last price</th><th>24h change</th><th>24h high</th><th>24h low</th><th>Feed</th></tr></thead>
+          <tbody id="mkBody"></tbody>
+        </table>
+      </div>
+      <p class="feed-note" id="feedNote">Prices load from public market data. When a feed is unreachable the market shows a simulated price, marked SIM.</p>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <div class="wrap foot-in">
+      <a class="logo" href="#home" aria-label="PRAY home"><svg aria-hidden="true"><use href="#mark"/></svg><svg class="logo-wm" aria-hidden="true"><use href="#wordmark"/></svg></a>
+      <nav class="foot-links" aria-label="Footer">
+        <a href="#offering">Offering</a><a href="#trade">Trade</a><a href="#card">Card</a>
+        <a href="#" data-soon="Docs">Docs</a><a href="https://x.com/prayperpdex" target="_blank" rel="noopener">X</a><a href="#" data-soon="Telegram">Telegram</a>
+      </nav>
+      <span>Trading derivatives carries risk of loss. Nothing on this site is financial advice.</span>
+    </div>
+  </footer>
+</main>
+
+<!-- ================= TRADE ================= -->
+<main id="view-trade" class="view" data-view="trade" hidden>
+  <div class="tr" id="tr" data-mt="chart">
+    <div class="mbar">
+      <button class="sym-btn" id="symBtn" aria-haspopup="dialog" aria-expanded="false">
+        <span id="symGlyph"></span>
+        <span><b id="symName">BTC-USD</b><small id="symSub">Perpetual · Bitcoin</small></span><span class="chev" aria-hidden="true"></span>
+      </button>
+      <div class="mprice" id="mPrice">—</div>
+      <div class="mstat"><small>24h change</small><span id="mChg">—</span></div>
+      <div class="mstat hide-m"><small>Mark</small><span id="mMark">—</span></div>
+      <div class="mstat hide-m"><small>24h high</small><span id="mHigh">—</span></div>
+      <div class="mstat hide-m"><small>24h low</small><span id="mLow">—</span></div>
+      <div class="mstat hide-m"><small>Funding / Countdown</small><span>— / <span id="mCd">00:00:00</span></span></div>
+      <div class="mstat hide-m"><small>Open interest</small><span>—</span></div>
+      <div class="mstat hide-m"><small>Session</small><span id="mSess">24/7</span></div>
+    </div>
+    <div class="m-tabs pane-h" role="tablist" aria-label="Panel">
+      <button class="ptab" role="tab" aria-selected="true" data-mt="chart">Chart</button>
+      <button class="ptab" role="tab" aria-selected="false" data-mt="book">Order book</button>
+    </div>
+    <div class="chart-pane" id="chartPane">
+      <div class="pane-h ch-top">
+        <div class="tf" id="tf" role="group" aria-label="Timeframe">
+          <button data-tf="1m">1m</button><button data-tf="5m">5m</button><button data-tf="15m" aria-pressed="true">15m</button><button data-tf="1h">1h</button><button data-tf="4h">4h</button><button data-tf="1d">1D</button>
+        </div>
+        <span class="tsep"></span>
+        <button class="tbtn" id="ctypeBtn" type="button" aria-haspopup="menu" title="Chart type"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M6 3v14M14 5v12"/><rect x="4" y="6" width="4" height="7"/><rect x="12" y="8" width="4" height="5"/></svg><span id="ctypeTxt">Candles</span></button>
+        <button class="tbtn" id="indBtn" type="button" aria-haspopup="menu" title="Indicators"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 15l4-5 3 3 7-8"/></svg>Indicators</button>
+        <button class="tbtn" id="logBtn" type="button" aria-pressed="false" title="Logarithmic price scale">log</button>
+        <button class="tbtn" id="resetBtn" type="button" title="Reset chart view"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10a6 6 0 1 0 2-4.5M4 3v3h3"/></svg></button>
+        <button class="tbtn" id="fsBtn" type="button" aria-pressed="false" title="Expand chart"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 8V3h5M17 8V3h-5M3 12v5h5M17 12v5h-5"/></svg></button>
+        <span class="tsep"></span>
+        <button class="tbtn" id="tvBtn" type="button" aria-pressed="false" title="Switch to the TradingView chart" hidden>TradingView</button>
+        <span class="feedtag src-badge" id="feedTag">SIM</span>
+      </div>
+      <div class="ch-body">
+        <div class="dtools" id="dtools" role="toolbar" aria-label="Drawing tools"><button type="button" data-tool="cross" title="Crosshair" aria-label="Crosshair" aria-pressed="true"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3v14M3 10h14"/></svg></button><button type="button" data-tool="trend" title="Trend line" aria-label="Trend line" aria-pressed="false"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 16L16 4"/><circle cx="4" cy="16" r="1.6"/><circle cx="16" cy="4" r="1.6"/></svg></button><button type="button" data-tool="ray" title="Ray" aria-label="Ray" aria-pressed="false"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 15L17 5"/><circle cx="4" cy="15" r="1.6"/><path d="M13 5h4v4"/></svg></button><button type="button" data-tool="hline" title="Horizontal line" aria-label="Horizontal line" aria-pressed="false"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M2 10h16"/><circle cx="10" cy="10" r="1.6"/></svg></button><button type="button" data-tool="vline" title="Vertical line" aria-label="Vertical line" aria-pressed="false"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2v16"/><circle cx="10" cy="10" r="1.6"/></svg></button><button type="button" data-tool="rect" title="Rectangle" aria-label="Rectangle" aria-pressed="false"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="4" y="5" width="12" height="10"/></svg></button><button type="button" data-tool="fib" title="Fib retracement" aria-label="Fib retracement" aria-pressed="false"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 4h14M3 8h14M3 12h14M3 16h14"/></svg></button><button type="button" data-tool="measure" title="Measure" aria-label="Measure" aria-pressed="false"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3v14M7 6l3-3 3 3M7 14l3 3 3-3"/></svg></button><hr><button type="button" id="magBtn" title="Magnet mode: snap to open, high, low, close" aria-label="Magnet mode" aria-pressed="false"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 3v7a5 5 0 0 0 10 0V3M5 6h3M12 6h3"/></svg></button><button type="button" id="clrBtn" title="Remove all drawings" aria-label="Remove all drawings"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 6h12M8 6V4h4v2M6 6l1 11h6l1-11"/></svg></button></div>
+        <div class="chart-box" id="chartBox">
+          <div class="chart-wm" aria-hidden="true">PRAY</div>
+          <div class="chart-legend" id="legend"></div>
+          <canvas id="chart" tabindex="0" aria-label="Price chart. Drag to pan, scroll to zoom, drag the price scale to stretch it."></canvas>
+          <button type="button" id="autoBtn" class="cbtn" aria-pressed="true" title="Auto-scale the price axis (double-click the price axis does the same)">A</button><button type="button" id="liveBtn" class="cbtn live" title="Scroll to the latest bar" hidden>»</button>
+          <div id="tvBox" hidden></div>
+        </div>
+      </div>
+    </div>
+    <div class="book">
+      <div class="pane-h" role="tablist" aria-label="Book">
+        <button class="ptab" role="tab" aria-selected="true" data-bk="book">Order book</button>
+        <button class="ptab" role="tab" aria-selected="false" data-bk="trades">Trades</button>
+        <select class="grp" id="grp" aria-label="Price grouping"></select>
+      </div>
+      <div id="bkBook" style="display:flex;flex-direction:column;flex:1;min-height:0">
+        <div class="book-cols"><span>Price</span><span>Size (<span class="baseU">BTC</span>)</span><span>Total</span></div>
+        <div class="ob-side asks" id="asks"></div>
+        <div class="spread"><b id="sprPx">—</b><span class="num" id="sprMark" style="color:var(--ash);font-size:12px"></span><small id="sprTxt">Spread</small></div>
+        <div class="ob-side bids" id="bids"></div>
+      </div>
+      <div id="bkTrades" hidden style="flex:1;display:flex;flex-direction:column;min-height:0">
+        <div class="book-cols"><span>Price</span><span>Size (<span class="baseU">BTC</span>)</span><span>Time</span></div>
+        <div class="trades-list" id="tradesList"></div>
+      </div>
+    </div>
+    <div class="oform">
+      <div class="of-in">
+        <div class="of-top">
+          <button type="button" data-soon="Margin modes">Cross</button>
+          <button type="button" id="levBtn" aria-expanded="false"><span id="levTxt">10</span>x</button>
+        </div>
+        <div class="lev-pop" id="levPop" hidden>
+          <div class="row"><span style="color:var(--ash)">Leverage</span><b class="num" id="levVal">10x</b></div>
+          <input type="range" class="lev" id="lev" min="1" max="50" value="10" aria-label="Leverage">
+          <div class="row" style="color:var(--ash);font-size:11px"><span>1x</span><span id="levMax">50x</span></div>
+        </div>
+        <div class="of-type" role="tablist" aria-label="Order type">
+          <button role="tab" aria-selected="true" data-ot="limit">Limit</button>
+          <button role="tab" aria-selected="false" data-ot="market">Market</button>
+          <button role="tab" aria-selected="false" data-ot="stop">Stop limit</button>
+        </div>
+        <div class="side" role="group" aria-label="Side">
+          <button type="button" class="buy on" data-side="buy">Buy / Long</button>
+          <button type="button" class="sell" data-side="sell">Sell / Short</button>
+        </div>
+        <div class="avail"><span style="color:var(--ash);font-family:var(--f-ui)">Available</span><span id="availTxt">0.00 USDC</span></div>
+        <div class="inp" id="stopRow" hidden><label for="stopPx">Stop</label><input id="stopPx" inputmode="decimal" placeholder="0.00"><span class="u">USD</span></div>
+        <div class="inp" id="pxRow"><label for="px">Price</label><input id="px" inputmode="decimal"><button type="button" class="mid" id="lastBtn">Last</button><span class="u">USD</span></div>
+        <div class="inp"><label for="sz">Size</label><input id="sz" inputmode="decimal" placeholder="0.00"><span class="u baseU">BTC</span></div>
+        <div class="pct" role="group" aria-label="Size as percent of balance"><button type="button">10%</button><button type="button">25%</button><button type="button">50%</button><button type="button">75%</button><button type="button">100%</button></div>
+        <div class="chk"><label><input type="checkbox" id="tpsl"> TP/SL</label><label><input type="checkbox" id="ro"> Reduce only</label><label><input type="checkbox" id="po"> Post only</label></div>
+        <div id="tpslRow" hidden style="display:grid;gap:8px">
+          <div class="inp"><label for="tp">Take profit</label><input id="tp" inputmode="decimal" placeholder="Price"><span class="u">USD</span></div>
+          <div class="inp"><label for="sl">Stop loss</label><input id="sl" inputmode="decimal" placeholder="Price"><span class="u">USD</span></div>
+        </div>
+        <button type="button" class="place buy" id="place">Buy / Long BTC</button>
+        <div class="summ">
+          <div>Order value<span id="sVal">0.00 USD</span></div>
+          <div>Margin required<span id="sMar">0.00 USD</span></div>
+          <div>Est. liquidation price<span id="sLiq">—</span></div>
+          <div>Fees<span>Announced at launch</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="bottom">
+      <div class="pane-h" role="tablist" aria-label="Account history">
+        <button class="ptab" role="tab" aria-selected="true" data-bt="Positions">Positions (0)</button>
+        <button class="ptab" role="tab" aria-selected="false" data-bt="Open orders">Open orders (0)</button>
+        <button class="ptab" role="tab" aria-selected="false" data-bt="Order history">Order history</button>
+        <button class="ptab" role="tab" aria-selected="false" data-bt="Trade history">Trade history</button>
+        <button class="ptab" role="tab" aria-selected="false" data-bt="Funding history">Funding history</button>
+      </div>
+      <div class="empty" id="bottomEmpty"><div><svg aria-hidden="true"><use href="#mark"/></svg><span id="bottomTxt">No open positions</span></div></div>
+    </div>
+    <div class="acct">
+      <div class="pane-h"><span style="color:var(--marble)">Account</span></div>
+      <div class="of-in">
+        <div class="offer-card" id="acctOffer">
+          <small class="carve">Trading balance</small>
+          <b id="acctAmt" class="num">Unclaimed</b>
+          <small id="acctTxt">Claim $0.50 – $10 before launch.</small>
+          <a href="#offering" id="acctLink">Claim offering →</a>
+        </div>
+        <div class="summ">
+          <div>Account equity<span id="acctEq">—</span></div>
+          <div>Unrealized PnL<span>—</span></div>
+          <div>Margin ratio<span>—</span></div>
+        </div>
+        <div class="btns"><button type="button" data-soon="Deposits">Deposit</button><button type="button" data-soon="Withdrawals">Withdraw</button></div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- ================= CARD ================= -->
+<main id="view-card" class="view" data-view="card" hidden>
+  <div class="wrap">
+    <div class="card-hero">
+      <div>
+        <span class="carve" style="color:var(--dust)">The PRAY Card</span>
+        <h1>Carry the <em>weight.</em> Spend the reward.</h1>
+        <p>A debit card funded by your PRAY balance. Reserve yours with two things: your X account and your PRAY account. Fund it from your trading balance once it is issued.</p>
+        <div class="cta-row"><button class="btn solid" id="reserveCard" type="button">Reserve my card</button><a class="btn ghost" id="cardOfferBtn" href="#offering">Claim offering first</a></div>
+      </div>
+      <div class="cstage" id="cstage" style="--bgimg:var(--img-atlas)">
+        <div class="vcard-wrap" data-vcard="big"></div>
+      </div>
+    </div>
+
+    <div class="req">
+      <div><span class="n">I</span><h3>X account</h3><p>Bind your X handle in the Offering. It becomes the name on your card.</p><span class="pill" id="rq1">Not connected</span></div>
+      <div><span class="n">II</span><h3>PRAY account</h3><p>Your PRAY account is created with your offering and holds your trading balance.</p><span class="pill" id="rq2">Not created</span></div>
+      <div><span class="n">III</span><h3>Reservation</h3><p>Reserve your place. Cards are issued in order of reservation once issuing opens.</p><span class="pill" id="rq3">Not reserved</span></div>
+    </div>
+
+    <div class="feat">
+      <div><span class="carve">Fund</span><h4>Spend your balance</h4><p>Your card draws from your PRAY balance. Close a trade, and the proceeds are ready to spend.</p></div>
+      <div><span class="carve">Offering</span><h4>Your drop funds it</h4><p>Your offering lands on your trading balance. Move it to the card when issuing opens.</p></div>
+      <div><span class="carve">Control</span><h4>Freeze in one tap</h4><p>Freeze, unfreeze and set limits from your PRAY account. Planned for the first release.</p></div>
+    </div>
+    <div class="notice"><svg width="27" height="18" aria-hidden="true" style="flex:none;margin-top:1px"><use href="#mark"/></svg><span>Card issuing is coming soon. Availability depends on your region, and identity checks required by the card issuer apply before a card is issued.</span></div>
+  </div>
+  <footer class="foot" style="margin-top:90px">
+    <div class="wrap foot-in">
+      <a class="logo" href="#home" aria-label="PRAY home"><svg aria-hidden="true"><use href="#mark"/></svg><svg class="logo-wm" aria-hidden="true"><use href="#wordmark"/></svg></a>
+      <span>Trading derivatives carries risk of loss. Nothing on this site is financial advice.</span>
+    </div>
+  </footer>
+</main>
+
+<div class="picker" id="picker" role="dialog" aria-label="Select market" hidden>
+  <div class="pk-search"><input id="pkQ" placeholder="Search markets" aria-label="Search markets" autocomplete="off"></div>
+  <div class="pk-tabs" role="tablist" aria-label="Market class">
+    <button class="tab" role="tab" aria-selected="false" data-pk="fav">★ Favorites</button>
+    <button class="tab" role="tab" aria-selected="true" data-pk="all">All</button>
+    <button class="tab" role="tab" aria-selected="false" data-pk="crypto">Crypto</button>
+    <button class="tab" role="tab" aria-selected="false" data-pk="rwa">RWA</button>
+  </div>
+  <div class="pk-sub" id="pkSub" hidden>
+    <button aria-pressed="true" data-sub="all">All</button><button aria-pressed="false" data-sub="Stocks">Stocks</button><button aria-pressed="false" data-sub="Indices">Indices</button><button aria-pressed="false" data-sub="Metals">Metals</button><button aria-pressed="false" data-sub="FX">FX</button>
+  </div>
+  <div class="pk-list" id="pkList"></div>
+</div>
+
+<div class="modal" id="modal" hidden>
+  <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="mdT">
+    <svg aria-hidden="true"><use href="#mark"/></svg>
+    <span class="carve" style="color:var(--ash)" id="mdK">Coming soon</span>
+    <h3 id="mdT">The gates are closed</h3>
+    <p id="mdP">Trading opens at launch. Claim your offering now and it will be waiting in your balance.</p>
+    <div class="cta-row"><a class="btn solid sm" href="#offering" id="mdCta">Claim offering</a><button class="btn ghost sm" id="mdX" type="button">Close</button></div>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<div class="menu" id="ctypeMenu" role="menu" hidden>
+  <button role="menuitemradio" data-ct="candles">Candles</button><button role="menuitemradio" data-ct="hollow">Hollow candles</button><button role="menuitemradio" data-ct="heikin">Heikin Ashi</button><button role="menuitemradio" data-ct="bars">Bars</button><button role="menuitemradio" data-ct="line">Line</button><button role="menuitemradio" data-ct="area">Area</button>
+</div>
+<div class="menu" id="indMenu" role="menu" hidden>
+  <div class="mh">On the chart</div>
+  <label><input type="checkbox" data-ind="vol"> Volume</label>
+  <label><input type="checkbox" data-ind="ma20"><i class="sw" style="background:#c9b27c"></i> Moving average 20</label>
+  <label><input type="checkbox" data-ind="ema50"><i class="sw" style="background:#7fa6c9"></i> EMA 50</label>
+  <label><input type="checkbox" data-ind="ema200"><i class="sw" style="background:#b58fc9"></i> EMA 200</label>
+  <label><input type="checkbox" data-ind="bb"><i class="sw" style="background:#a29d92"></i> Bollinger Bands 20, 2</label>
+  <label><input type="checkbox" data-ind="vwap"><i class="sw" style="background:#d69a5c"></i> VWAP (daily)</label>
+  <div class="mh">Panes</div>
+  <label><input type="checkbox" data-ind="rsi"> RSI 14</label>
+  <label><input type="checkbox" data-ind="macd"> MACD 12, 26, 9</label>
+</div>

@@ -1,0 +1,15 @@
+# PRAY — Netlify: static site from public/, API from netlify/functions (Netlify Blobs for storage)
+[build]
+  publish = "public"
+  functions = "netlify/functions"
+  command = "npm test"
+
+[functions]
+  node_bundler = "esbuild"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    X-Frame-Options = "SAMEORIGIN"

@@ -3,7 +3,7 @@
 import http from 'node:http';
 import fs from 'node:fs';
 import path from 'node:path';
-import './stubs.mjs';
+import { X_LIKES } from './stubs.mjs';
 import { createApi } from '../netlify/lib/core.mjs';
 import { Store, MemKV } from '../netlify/lib/store.mjs';
 import { loadConfig } from '../netlify/lib/config.mjs';
@@ -13,8 +13,8 @@ import { evmSigner, solSigner } from './signers.mjs';
 const DEV = { evm: evmSigner(), sol: solSigner() };
 
 const PUB = path.join(path.dirname(new URL(import.meta.url).pathname), '..', 'public');
-const env = { HELIUS_API_KEY: 'stub', ADMIN_TOKEN: 'dev' };
-const cfg = loadConfig({}); cfg.x.postId = '';
+const env = { HELIUS_API_KEY: 'stub', ADMIN_TOKEN: 'dev', ...(process.env.DEV_X ? { X_CONSUMER_KEY: 'ck', X_CONSUMER_SECRET: 'cs', SESSION_SECRET: 'dev' } : {}) };
+const cfg = loadConfig({}); cfg.x.postId = process.env.DEV_X ? '777' : '';
 const api = createApi({ store: new Store(new MemKV()), cfg, env });
 const port = +(process.env.PORT || 8790);
 
@@ -24,6 +24,7 @@ http.createServer(async (req, res) => {
   if (url.pathname.startsWith('/__dev/')) {
     let body = ''; for await (const c of req) body += c;
     res.writeHead(200, { 'content-type': 'application/json' });
+    if (url.pathname === '/__dev/like') { X_LIKES.add('4242'); return res.end('{"ok":true}'); }
     if (url.pathname === '/__dev/wallet') return res.end(JSON.stringify({ evm: DEV.evm.address, sol: DEV.sol.address }));
     const { chain, msg } = JSON.parse(body || '{}'); return res.end(JSON.stringify({ sig: DEV[chain === 'sol' ? 'sol' : 'evm'].sign(msg) }));
   }

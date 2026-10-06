@@ -7,9 +7,10 @@ export const SOL_ACTIVE = '86xCnPeV69n6t3DnyGvkKobf9FdN2H9oiVDdaMpo2MMY', SOL_EM
 export const now = Math.floor(Date.now() / 1000);
 export const sigs = (n, oldestDays) => Array.from({ length: n }, (_, i) => ({ signature: 'sig' + i, err: null, blockTime: now - Math.round(i / Math.max(1, n - 1) * oldestDays * 86400) }));
 export const SIGS = { [SOL_ACTIVE]: sigs(1500, 400), [SOL_EMPTY]: [], [SOL_NEW]: sigs(40, 10) };
+export const X_LIKES = new Set();
 export const J = (o, s = 200) => Promise.resolve(new Response(JSON.stringify(o), { status: s, headers: { 'content-type': 'application/json' } }));
 globalThis.fetch = async (url, opt = {}) => {
-  url = String(url); const body = opt.body ? JSON.parse(opt.body) : {};
+  url = String(url); let body = {}; try { body = opt.body ? JSON.parse(opt.body) : {}; } catch { body = {}; }
   const who = (body.user || body.wallet || (url.match(/0x[0-9a-f]{40}/i) || [])[0] || '').toLowerCase();
   if (who === W_DOWN) throw new Error('ECONNRESET');
   if (url.includes('helius-rpc')) {
@@ -52,6 +53,9 @@ globalThis.fetch = async (url, opt = {}) => {
     if (u.pathname.endsWith('/last_tweets')) return J({ status: 'success', data: { tweets: q('userName') === 'doer' ? [{ id: '9', retweeted_tweet: { id: '777' } }] : [{ id: '1' }] } });
     if (u.pathname.endsWith('/retweeters')) return J({ users: q('cursor') ? [{ userName: 'Lazy_RT' }] : [{ userName: 'someone' }], has_next_page: !q('cursor'), next_cursor: q('cursor') ? null : 'c1' });
   }
+  if (url.includes('api.twitter.com/oauth/request_token')) { if (!String(opt.headers.authorization).includes('oauth_callback=')) return J({}, 401); return Promise.resolve(new Response('oauth_token=RT1&oauth_token_secret=RS1&oauth_callback_confirmed=true')); }
+  if (url.includes('api.twitter.com/oauth/access_token')) { const v = new URLSearchParams(opt.body).get('oauth_verifier'); return Promise.resolve(new Response(v === 'good' ? 'oauth_token=AT1&oauth_token_secret=AS1&user_id=4242&screen_name=Real_Zeus' : 'bad', { status: v === 'good' ? 200 : 401 })); }
+  if (url.includes('/liked_tweets')) return J({ data: X_LIKES.has(url.match(/users\/(\d+)/)[1]) ? [{ id: '1' }, { id: '777' }] : [{ id: '5' }] });
   if (url.includes('api.x.com')) return url.includes('/username/oldtimer') ? J({ data: { created_at: '2019-01-01T00:00:00Z', public_metrics: { followers_count: 5200, tweet_count: 9000 } } }) : J({});
   throw new Error('unexpected ' + url);
 };

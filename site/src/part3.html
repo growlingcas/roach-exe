@@ -51,11 +51,12 @@
         <form class="cl-x" id="clXForm" autocomplete="off">
           <label for="clHandle">Your X username</label>
           <small>Your offering is reserved for this account.</small>
-          <div class="cl-field"><span aria-hidden="true">@</span><input id="clHandle" maxlength="15" placeholder="username" spellcheck="false" autocapitalize="off"><button class="btn solid sm" type="submit">Continue</button></div>
+          <a class="btn solid cl-xbtn" id="clXConnect" href="/api/x/login" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.8 3h3.1l-6.8 7.7L22 21h-6.2l-4.8-6.3L5.4 21H2.3l7.2-8.3L2 3h6.3l4.4 5.8L17.8 3zm-1.1 16.2h1.7L7.4 4.7H5.6l11.1 14.5z"/></svg><span>Connect X</span></a>
+          <div class="cl-field" id="clXField"><span aria-hidden="true">@</span><input id="clHandle" maxlength="15" placeholder="username" spellcheck="false" autocapitalize="off"><button class="btn solid sm" type="submit">Continue</button></div>
           <p class="cl-err" id="clXErr" hidden></p>
         </form>
         <p class="cl-invited" id="clInvited" hidden></p>
-        <div class="cl-bound" id="clBound" hidden><span class="cl-dot"></span><span>@<b id="clName"></b></span><button type="button" id="clChange">Change</button></div>
+        <div class="cl-bound" id="clBound" hidden><span class="cl-dot"></span><span>@<b id="clName"></b></span><span class="cl-ver" id="clVer" hidden title="Signed in with X">Verified</span><button type="button" id="clChange">Change</button></div>
         <div class="cl-prog"><div class="cl-bar"><i id="clBar"></i></div><small id="clCount">0 of 1 done</small></div>
         <ul class="cl-tasks" id="clTasks">
           <li class="cl-task" data-t="follow"><span class="cl-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M15 19v-1.5a3.5 3.5 0 0 0-3.5-3.5h-5A3.5 3.5 0 0 0 3 17.5V19M9 10.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM19 8v6M22 11h-6"/></svg></span><div class="cl-tx"><b>Follow PRAY on X</b><small class="cl-st">One tap on X.</small></div><button type="button" class="cl-btn">Follow</button></li>

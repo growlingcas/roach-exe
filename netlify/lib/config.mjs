@@ -10,6 +10,7 @@ export const defaults = {
   antiSybil: { minXAgeDays: 90, youngXPts: 40, minIfNoTrading: true },
   rateLimit: { claimsPerHourPerIp: 5, scorePerMin: 20 },
   cacheMin: 10,
+  requireXAuth: true,     // with X_CONSUMER_KEY/SECRET set: claim only after Connect X (handle from the X session)
   requireSignature: true, // claim only with a signature from the wallet (connect + sign)
   // retweeterPages is kept low so a claim fits the function time limit
   x: { account: 'prayperpdex', postId: '', requireTasks: true, retweeterPages: 3 },
@@ -34,5 +35,6 @@ export function loadConfig(env = process.env) {
   set(cfg.rateLimit, 'claimsPerHourPerIp', num(env.CLAIMS_PER_HOUR_PER_IP));
   set(cfg.server, 'corsOrigin', env.CORS_ORIGIN);
   set(cfg, 'requireSignature', bool(env.REQUIRE_WALLET_SIG));
+  set(cfg, 'requireXAuth', bool(env.REQUIRE_X_AUTH));
   return cfg;
 }

@@ -8,7 +8,7 @@ import { claimMessage } from '../netlify/lib/sig.mjs';
 import { amountFor, scoreAll, scoreX, checkTasks } from '../netlify/lib/scoring.mjs';
 
 const env = { HELIUS_API_KEY: 'hk', TWITTERAPI_KEY: '', X_BEARER_TOKEN: '', ADMIN_TOKEN: 'tkn' };
-import { W_ACTIVE, W_EMPTY, W_DOWN, SOL_ACTIVE, SOL_EMPTY, SOL_NEW } from './stubs.mjs';
+import { W_ACTIVE, W_EMPTY, W_DOWN, SOL_ACTIVE, SOL_EMPTY, SOL_NEW, X_LIKES } from './stubs.mjs';
 
 const cfg = loadConfig({}); cfg.x.account = ''; cfg.x.postId = ''; cfg.requireSignature = false; // signature checks have their own block below
 const kv = new MemKV(); const store = new Store(kv);
@@ -127,6 +127,33 @@ const req = async (method, p, body, headers = {}) => {
     const so2 = solSigner(); sig = so2.sign(claimMessage('sol_signer2', so.address, at));
     r = await req('POST', '/api/claim', { handle: 'sol_signer2', wallet: so.address, chain: 'sol', sig, issuedAt: at }, H('20.0.0.3')); assert.equal(r.body.error, 'bad_signature'); ok('Solana signature from another key → rejected');
     cfg.requireSignature = false; }
+
+  // Connect X (OAuth 1.0a) + like check with the user's token
+  { env.X_CONSUMER_KEY = 'ck'; env.X_CONSUMER_SECRET = 'cs'; env.SESSION_SECRET = 'ss';
+    r = await req('GET', '/api/health'); assert.equal(r.body.x.auth, true); ok('health reports X sign-in on');
+    r = await req('POST', '/api/claim', { handle: 'whale_fan', wallet: '0x' + '71'.repeat(20) }, H('30.0.0.1')); assert.equal(r.code, 401); assert.equal(r.body.error, 'x_required'); ok('claim without Connect X → 401');
+    r = await req('GET', '/api/x/login?ret=' + encodeURIComponent('/?ref=apollo')); assert.equal(r.code, 302); assert.ok(r.headers.get('location').startsWith('https://api.twitter.com/oauth/authenticate?oauth_token=RT1')); ok('login → redirect to X authorize');
+    r = await req('GET', '/api/x/login?ret=' + encodeURIComponent('//evil.com')); assert.ok((await kv.get('ot/RT1')).ret === '/'); ok('open redirect blocked in ret');
+    await req('GET', '/api/x/login?ret=' + encodeURIComponent('/?ref=apollo'));
+    r = await req('GET', '/api/x/callback?oauth_token=RT1&oauth_verifier=bad'); assert.equal(r.code, 302); assert.ok(r.headers.get('location').includes('xerr=failed')); assert.ok(!r.headers.get('set-cookie')); ok('bad verifier → back to site with xerr, no session');
+    r = await req('GET', '/api/x/callback?oauth_token=RT1&oauth_verifier=good'); assert.ok(r.headers.get('location').includes('xerr=expired')); ok('request token is single-use');
+    await req('GET', '/api/x/login?ret=' + encodeURIComponent('/?ref=apollo'));
+    r = await req('GET', '/api/x/callback?oauth_token=RT1&oauth_verifier=good');
+    const loc = r.headers.get('location'), ck = r.headers.get('set-cookie');
+    assert.equal(loc, '/?ref=apollo&x=ok#offering'); assert.ok(/pray_x=[^;]+; Path=\/; HttpOnly; Secure; SameSite=Lax/.test(ck)); ok('callback → session cookie, back to ' + loc);
+    const C = { cookie: ck.split(';')[0] };
+    r = await req('GET', '/api/x/me', null, C); assert.equal(r.body.handle, 'Real_Zeus'); ok('/api/x/me → @Real_Zeus');
+    r = await req('GET', '/api/x/me', null, { cookie: ck.split(';')[0].replace(/.$/, (c) => (c === 'A' ? 'B' : 'A')) }); assert.equal(r.code, 401); ok('tampered cookie rejected');
+    cfg.x.postId = '777';
+    const w = '0x' + '72'.repeat(20);
+    r = await req('POST', '/api/claim', { handle: 'someone_famous', wallet: w }, { ...H('30.0.0.2'), ...C }); assert.equal(r.code, 409); assert.ok(r.body.message.includes('like the launch post'), r.body.message); ok('like missing → "' + r.body.message + '"');
+    X_LIKES.add('4242');
+    r = await req('POST', '/api/claim', { handle: 'someone_famous', wallet: w }, { ...H('30.0.0.2'), ...C }); assert.equal(r.code, 201, JSON.stringify(r.body)); assert.equal(r.body.handle, 'real_zeus');
+    const rec = await store.get('real_zeus'); assert.equal(rec.xId, '4242'); assert.equal(rec.xVerified, true); assert.equal(rec.tasks.like, true); assert.equal(await store.get('someone_famous'), null);
+    ok('claim uses the X session handle (typed handle ignored), like verified');
+    r = await req('POST', '/api/x/logout', null, C); assert.ok(r.headers.get('set-cookie').includes('Max-Age=0'));
+    r = await req('GET', '/api/x/me', null, C); assert.equal(r.code, 401); ok('logout ends the session');
+    cfg.x.postId = ''; delete env.X_CONSUMER_KEY; delete env.X_CONSUMER_SECRET; }
 
   // persistence: totals rebuilt from the records match the running counters
   { const before = await store.pool(); const again = await store.recount();

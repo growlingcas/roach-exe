@@ -615,6 +615,9 @@ input[type=range].lev{width:100%;accent-color:var(--bone)}
 .cl-field span{display:flex;align-items:center;padding:0 0 0 12px;color:var(--ash);font-family:var(--f-num)}
 .cl-field input{flex:1;min-width:0;background:none;border:0;outline:none;padding:11px 8px;font-family:var(--f-num);font-size:14px}
 .cl-field .btn{border:0}
+.cl-xbtn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%}
+.cl-xbtn svg{width:16px;height:16px;fill:currentColor}
+.cl-ver{font-family:var(--f-body,inherit);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--void);background:var(--bone);padding:2px 6px}
 .cl-err{margin:4px 0 0;color:var(--down);font-size:12px}
 .cl-bound{display:flex;align-items:center;gap:10px;border:1px solid var(--line);padding:10px 12px;font-family:var(--f-num);font-size:14px}
 .cl-bound b{font-weight:500;color:var(--marble)}
@@ -755,11 +758,12 @@ input[type=range].lev{width:100%;accent-color:var(--bone)}
         <form class="cl-x" id="clXForm" autocomplete="off">
           <label for="clHandle">Your X username</label>
           <small>Your offering is reserved for this account.</small>
-          <div class="cl-field"><span aria-hidden="true">@</span><input id="clHandle" maxlength="15" placeholder="username" spellcheck="false" autocapitalize="off"><button class="btn solid sm" type="submit">Continue</button></div>
+          <a class="btn solid cl-xbtn" id="clXConnect" href="/api/x/login" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.8 3h3.1l-6.8 7.7L22 21h-6.2l-4.8-6.3L5.4 21H2.3l7.2-8.3L2 3h6.3l4.4 5.8L17.8 3zm-1.1 16.2h1.7L7.4 4.7H5.6l11.1 14.5z"/></svg><span>Connect X</span></a>
+          <div class="cl-field" id="clXField"><span aria-hidden="true">@</span><input id="clHandle" maxlength="15" placeholder="username" spellcheck="false" autocapitalize="off"><button class="btn solid sm" type="submit">Continue</button></div>
           <p class="cl-err" id="clXErr" hidden></p>
         </form>
         <p class="cl-invited" id="clInvited" hidden></p>
-        <div class="cl-bound" id="clBound" hidden><span class="cl-dot"></span><span>@<b id="clName"></b></span><button type="button" id="clChange">Change</button></div>
+        <div class="cl-bound" id="clBound" hidden><span class="cl-dot"></span><span>@<b id="clName"></b></span><span class="cl-ver" id="clVer" hidden title="Signed in with X">Verified</span><button type="button" id="clChange">Change</button></div>
         <div class="cl-prog"><div class="cl-bar"><i id="clBar"></i></div><small id="clCount">0 of 1 done</small></div>
         <ul class="cl-tasks" id="clTasks">
           <li class="cl-task" data-t="follow"><span class="cl-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M15 19v-1.5a3.5 3.5 0 0 0-3.5-3.5h-5A3.5 3.5 0 0 0 3 17.5V19M9 10.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM19 8v6M22 11h-6"/></svg></span><div class="cl-tx"><b>Follow PRAY on X</b><small class="cl-st">One tap on X.</small></div><button type="button" class="cl-btn">Follow</button></li>
@@ -1534,8 +1538,8 @@ $('#tStage').addEventListener('pointermove',e=>{px0=e.clientX/innerWidth-.5;py0=
 /* ---------- OFFERING (hero claim widget) ---------- */
 /* Fill these in when they exist. Empty = that task shows "Live soon" and is not required. */
 const PRAY_X='prayperpdex';  // X handle of the project, without @
-const LAUNCH_POST='';     // e.g. 'https://x.com/pray_xyz/status/1234567890'
-const POST_ID=(LAUNCH_POST.match(/status\/(\d+)/)||[])[1]||'';
+const LAUNCH_POST='';     // e.g. 'https://x.com/pray_xyz/status/1234567890' (the server's X_POST_ID overrides it)
+let POST_ID=(LAUNCH_POST.match(/status\/(\d+)/)||[])[1]||'',XAUTH=false;
 const HANDLE_RE=/^[A-Za-z0-9_]{1,15}$/,ADDR_RE=/^0x[a-fA-F0-9]{40}$/;
 /* Backend (pray-core). When /api/health answers, claims and scores come from the server; otherwise the page runs a local preview. */
 const API_BASE='';let apiLive=false;
@@ -1548,7 +1552,7 @@ function paintPool(p){p=p||{capUsd:POOL_CAP,reservedUsd:0,claims:0,open:true};co
   const left=Math.max(0,cap-res);$('#clPool').textContent=p.open===false||left<0.5?'The pool is fully reserved':p.claims?`${p.claims.toLocaleString('en-US')} believer${p.claims===1?'':'s'} claimed · $${Math.round(left).toLocaleString('en-US')} left`:'Be among the first to claim';
   $('#clPoolBox').classList.toggle('hot',pct>=75)}
 paintPool(null);
-(async()=>{if(!/^https?:/.test(location.protocol))return;try{const r=await apiCall('/api/health');if(r.ok&&r.j&&r.j.ok){apiLive=true;paintPool(r.j.pool);renderOffer();pullRef();setInterval(async()=>{try{const s=await apiCall('/api/stats');if(s.ok)paintPool(s.j)}catch(e){}},30000)}}catch(e){}})();
+(async()=>{if(!/^https?:/.test(location.protocol))return;try{const r=await apiCall('/api/health');if(r.ok&&r.j&&r.j.ok){apiLive=true;paintPool(r.j.pool);await applyServerX(r.j.x);renderOffer();pullRef();setInterval(async()=>{try{const s=await apiCall('/api/stats');if(s.ok)paintPool(s.j)}catch(e){}},30000)}}catch(e){}})();
 /* Referrals: ?ref=handle on the landing URL is remembered and sent with the claim. */
 const SITE_URL='https://praydex.fun/';  // base of referral links: https://praydex.fun/?ref=handle
 try{const q=(new URLSearchParams(location.search).get('ref')||'').replace(/^@/,'');if(HANDLE_RE.test(q)&&!LS.get('pray.ref'))LS.set('pray.ref',q)}catch(e){}
@@ -1571,6 +1575,7 @@ const TASKS={follow:{live:!!PRAY_X,url:()=>`https://x.com/intent/follow?screen_n
   wallet:{live:true,btn:'Add'},
   ref:{live:true,btn:'Invite',optional:true}};
 const done=k=>k==='wallet'?!!ST.w:k==='ref'?!!(ST.refStats&&ST.refStats.count):!!(ST.xt&&ST.xt[k]);
+$$('#clTasks .cl-st').forEach(st=>{st.dataset.def=st.textContent});
 const reqTasks=()=>Object.keys(TASKS).filter(k=>TASKS[k].live&&!TASKS[k].optional);
 function amtHTML(v){const [i,f]=v.toFixed(2).split('.');return `$${i}<span>.${f}</span>`}
 const VENUES=[{k:'Hyperliquid',max:400},{k:'Lighter',max:150},{k:'Derive',max:150}];
@@ -1585,7 +1590,7 @@ function renderBreakdown(res,anim){const rows=res?res.rows:[{k:'X presence',max:
   $('#scoreTxt').textContent=res?res.total+' / 1000':'—';$('#amtTxt').textContent=res?fmtUsd(res.amt):'$0.50 – $10'}
 function renderOffer(){
   const x=ST.x,se=ST.sealed,req=reqTasks();
-  $('#clXForm').hidden=!!x;$('#clBound').hidden=!x;if(x)$('#clName').textContent=x;
+  $('#clXForm').hidden=!!x;$('#clBound').hidden=!x;if(x)$('#clName').textContent=x;$('#clVer').hidden=!(x&&ST.xv);$('#clChange').textContent=XAUTH?'Switch':'Change';
   let n=0;$$('.cl-task').forEach(li=>{const k=li.dataset.t,T=TASKS[k],ok=done(k);
     if(k==='ref'){const rs=ST.refStats||{count:0,bonusUsd:0};li.classList.toggle('done',ok);li.classList.toggle('locked',!se);li.classList.remove('soon');
       const b=li.querySelector('.cl-btn');b.disabled=!se;b.textContent=se?($('#clRef').hidden?'Invite':'Hide'):'After claim';
@@ -1594,10 +1599,10 @@ function renderOffer(){
     li.classList.toggle('done',ok);li.classList.toggle('locked',!x||!!se);li.classList.toggle('soon',!T.live);
     const b=li.querySelector('.cl-btn');b.textContent=ok?(k==='wallet'?'Edit':'Done'):(T.live?T.btn:'Soon');b.disabled=!x||!!se||(ok&&k!=='wallet');
     if(k==='wallet'&&ok)li.querySelector('.cl-st').textContent=(curChain()==='sol'?'Solana · ':'EVM · ')+short(ST.w);
-    else if(!T.live)li.querySelector('.cl-st').textContent='Goes live soon. Not required yet.';});
+    else{const st=li.querySelector('.cl-st');if(st.dataset.def==null)st.dataset.def=st.textContent;st.textContent=T.live?st.dataset.def:'Goes live soon. Not required yet.'}});
   $('#clCount').textContent=`${n} of ${req.length} done`;$('#clBar').style.width=(x?(n/req.length*100):0)+'%';
   const ready=!!x&&n===req.length;const cb=$('#clClaim');cb.disabled=!ready||!!se;cb.hidden=!!se;
-  cb.textContent=!x?'Enter your X username':ready?(apiLive?'Connect wallet & claim':'Claim offering'):`Finish ${req.length-n} more task${req.length-n>1?'s':''}`;
+  cb.textContent=!x?(XAUTH?'Connect X to start':'Enter your X username'):ready?(apiLive?'Connect wallet & claim':'Claim offering'):`Finish ${req.length-n} more task${req.length-n>1?'s':''}`;
   $('#clDone').hidden=!se;$('#clAmt').innerHTML=amtHTML(se?se.amt:0);
   $('#clSub').textContent=se?'On your trading balance · usable at launch':'Up to $10 on your trading balance';$('#clBalAmt').textContent=fmtUsd(bal());
   $('#claim').classList.toggle('is-sealed',!!se);
@@ -1609,7 +1614,17 @@ function renderOffer(){
 $('#clXForm').addEventListener('submit',e=>{e.preventDefault();const v=$('#clHandle').value.trim().replace(/^@/,'').replace(/^https?:\/\/(www\.)?(x|twitter)\.com\//i,'').split(/[/?]/)[0];const er=$('#clXErr');
   if(!HANDLE_RE.test(v)){er.hidden=false;er.textContent='Use letters, numbers and underscores, up to 15 characters.';return}
   er.hidden=true;ST.x=v;delete ST.res;delete ST.sealed;save();renderOffer()});
-$('#clChange').onclick=()=>{delete ST.x;delete ST.xt;delete ST.res;delete ST.sealed;save();renderOffer();$('#clHandle').focus()};
+$('#clChange').onclick=async()=>{if(XAUTH){try{await apiCall('/api/x/logout',{method:'POST'})}catch(e){}}delete ST.x;delete ST.xv;delete ST.xt;delete ST.res;delete ST.sealed;save();renderOffer();if(!XAUTH)$('#clHandle').focus()};
+/* Connect X: settings from /api/health, session from /api/x/me, return from X with ?x=ok / ?xerr= */
+async function applyServerX(x){if(!x)return;
+  if(x.postId){POST_ID=String(x.postId);TASKS.like.live=TASKS.rt.live=true}
+  if(x.auth){XAUTH=true;$('#clXField').hidden=true;$('#clXConnect').hidden=false;$('#clXForm label').textContent='Connect your X account';$('#clXForm small').textContent='Your offering is reserved for the account you sign in with.';
+    try{const m=await apiCall('/api/x/me');if(m.ok&&m.j.handle){if(ST.x&&ST.x.toLowerCase()!==m.j.handle.toLowerCase()){delete ST.res;delete ST.sealed;delete ST.xt}ST.x=m.j.handle;ST.xv=true}else if(ST.xv||ST.x){delete ST.x;delete ST.xv}save()}catch(e){}}
+  const q=new URLSearchParams(location.search),ok=q.get('x'),er=q.get('xerr');
+  if(ok||er){q.delete('x');q.delete('xerr');history.replaceState(null,'',location.pathname+(q.toString()?'?'+q:'')+location.hash);
+    if(ok&&ST.x)toast('X connected: @'+ST.x);else if(er)toast({denied:'X sign-in was cancelled.',expired:'X sign-in took too long. Try again.',unavailable:'X sign-in is busy. Try again in a minute.'}[er]||'X sign-in failed. Try again.');
+    if(ST.x)document.getElementById('claim')?.scrollIntoView({block:'start'})}}
+$('#clXConnect').addEventListener('click',e=>{e.currentTarget.href='/api/x/login?ret='+encodeURIComponent(location.pathname+location.search);e.currentTarget.classList.add('busy');e.currentTarget.querySelector('span').textContent='Opening X…'});
 $('#clTasks').addEventListener('click',e=>{const b=e.target.closest('.cl-btn');if(!b||b.disabled)return;const k=b.closest('.cl-task').dataset.t,T=TASKS[k];
   if(k==='ref'){const bx=$('#clRef');bx.hidden=!bx.hidden;renderOffer();if(!bx.hidden)$('#clRefLink').select();return}
   if(k==='wallet'){const f=$('#clWForm');f.hidden=!f.hidden;if(!f.hidden){setChain(curChain());$('#clWallet').value=ST.w||'';$('#clWallet').focus()}return}
@@ -1622,7 +1637,7 @@ $('#clWForm').addEventListener('submit',e=>{e.preventDefault();const v=$('#clWal
   if(c==='sol'&&!SOL_RE.test(v)){er.hidden=false;er.textContent='Paste a Solana address: 32–44 characters.';return}
   setChain(c);er.hidden=true;ST.w=c==='sol'?v:v.toLowerCase();delete ST.res;save();$('#clWForm').hidden=true;renderOffer();toast('Wallet added: '+short(v))});
 $('#clBalance').addEventListener('click',()=>setTimeout(()=>{const o=$('#acctOffer');o.classList.remove('flash');void o.offsetWidth;o.classList.add('flash');o.scrollIntoView({block:'nearest',behavior:'smooth'})},350));
-$('#clRedo').onclick=()=>{ST={design:ST.design};save();$('#clLog').textContent='';renderOffer();$('#clHandle').focus()};
+$('#clRedo').onclick=()=>{ST={design:ST.design,...(XAUTH&&ST.xv?{x:ST.x,xv:true}:{})};save();$('#clLog').textContent='';renderOffer();$('#clHandle').focus()};
 async function hlScore(addr){
   const post=b=>fetchT('https://api.hyperliquid.xyz/info',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(b)},3500).then(r=>r.json());
   const [fills,ch]=await Promise.all([post({type:'userFills',user:addr}),post({type:'clearinghouseState',user:addr})]);

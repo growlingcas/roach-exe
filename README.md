@@ -8,6 +8,7 @@ netlify/functions/api.mjs    все запросы /api/*
 netlify/lib/core.mjs         маршруты и правила оффера
 netlify/lib/scoring.mjs      скоринг: X (twitterapi.io), Hyperliquid, Lighter, Derive, Solana (Helius)
 netlify/lib/store.mjs        хранилище клеймов (Netlify Blobs)
+netlify/lib/xauth.mjs        Connect X: вход через X (OAuth 1.0a), сессия, проверка лайка
 netlify/lib/sig.mjs          проверка подписи кошелька (EVM personal_sign, Solana signMessage)
 netlify/lib/config.mjs       настройки по умолчанию
 site/                        исходники сайта: src/part*.html, assets/, build.py
@@ -39,6 +40,10 @@ test/                        тесты (npm test) и локальный сер�
    | `REQUIRE_TASKS` | нет | `false` — пускать без подписки/репоста |
    | `REFERRAL_RATE`, `REFERRAL_MAX_BONUS_USD` | нет | 0.10 и 0 (без потолка) |
    | `X_BEARER_TOKEN` | нет | официальный X API вместо twitterapi.io |
+   | `X_CONSUMER_KEY` | да | Connect X: Consumer Key приложения в X Developer Console |
+   | `X_CONSUMER_SECRET` | да | Connect X: Secret Key (secret) |
+   | `SESSION_SECRET` | да | любая длинная случайная строка, подписывает cookie входа |
+   | `REQUIRE_X_AUTH` | нет | `false` — пускать без Connect X (ник вводом, не рекомендуется) |
    | `REQUIRE_WALLET_SIG` | нет | `false` — клейм без подписи кошелька (не рекомендуется) |
 
    После добавления ключей: Deploys → Trigger deploy → Deploy site.
@@ -71,6 +76,20 @@ amount = 0.5 + 9.5 × (score/1000)^1.6, вниз до $0.10, в пределах
 - Реферал: 10% от клейма друга, из того же пула; не засчитывается на себя, на неизвестного и с того же IP.
 - Источник не ответил → 0 очков и флаг `needs_rescore` (пересчёт ниже).
 
+## Connect X (вход через X)
+
+1. X Developer Console → приложение → **User authentication settings** → OAuth 1.0a включён, App permissions: **Read**, Type: Web App.
+   Callback URI (оба): `https://praydex.fun/api/x/callback` и `https://praydex.netlify.app/api/x/callback`. Website URL: `https://praydex.fun`.
+2. В Netlify: `X_CONSUMER_KEY`, `X_CONSUMER_SECRET`, `SESSION_SECRET` → Trigger deploy.
+3. Когда выйдет launch-пост: `X_POST_ID` = число из ссылки `.../status/ЧИСЛО`. Задания Like и Repost сразу станут обязательными, сайт пересобирать не нужно (настройки приходят из `/api/health`).
+
+Как работает:
+- Кнопка **Connect X** → `/api/x/login` → экран X «Authorize app» → `/api/x/callback`. Ник и id берутся из ответа X, токены лежат в Blobs (`xs/<id>`), в браузере только подписанная HttpOnly-cookie `pray_x` на 7 дней.
+- Клейм берёт ник только из сессии X; ник из запроса игнорируется. В записи `xId` и `xVerified: true`.
+- Проверки при клейме: подписка (twitterapi.io), репост (twitterapi.io: лента человека, затем ретвитнувшие), **лайк — по токену самого человека** (`GET /2/users/:id/liked_tweets`, лайки видит только владелец). Чего не хватает — «Almost there: like the launch post and repost the launch post…».
+- Если X API не ответил (лимит, нет кредитов), задание не блокирует клейм и пишется как непроверенное.
+- Стоимость X API (pay-per-use): вход — без платы за чтение; проверка лайка ≈ 10 записей за клейм. Пополняйте кредиты X перед запуском и смотрите расход в консоли.
+
 ## Подключение кошелька
 
 Кошелёк человек по-прежнему добавляет просто вставкой адреса (задание Add your wallet). Подключить его нужно только на кнопке **Connect wallet & claim**:
@@ -101,8 +120,9 @@ curl -X POST -H "Authorization: Bearer $T" https://praydex.fun/api/admin/recount
 ## Разработка
 
 ```bash
-npm test                     # 46 проверок на заглушках, без сети и без Netlify
+npm test                     # 58 проверок на заглушках, без сети и без Netlify
 node test/dev-server.mjs     # сайт + API с заглушками: http://127.0.0.1:8790 (тестовые кошельки: /__dev/wallet)
+DEV_X=1 node test/dev-server.mjs   # то же с Connect X и launch-постом (заглушка X)
 python3 site/build.py        # пересобрать public/index.html после правок в site/src
 ```
 
@@ -114,6 +134,6 @@ python3 site/build.py        # пересобрать public/index.html посл
 
 - Лимит времени функции: клейм делает скоринг и проверку заданий параллельно, это 3–8 секунд. Список ретвитнувших читается до 3 страниц (`x.retweeterPages`); сначала проверяется лента самого человека, так что обычно хватает.
 - Blobs не дают транзакций: при очень плотных одновременных клеймах итог пула может разойтись на копейки. `POST /api/admin/recount` пересобирает его из записей.
-- X-хендл не подтверждается через OAuth: можно вписать чужой ник (кошелёк подтверждается подписью). Лайки X проверить нельзя (скрыты с 2024 года).
+- X-аккаунт подтверждается входом через X, кошелёк — подписью. Лайки X проверить нельзя (скрыты с 2024 года).
 - Поля Lighter и Derive разобраны по документации; после деплоя проверьте на живом кошельке:
   `curl -X POST https://praydex.fun/api/score -H 'content-type: application/json' -d '{"wallet":"0x…"}'`.

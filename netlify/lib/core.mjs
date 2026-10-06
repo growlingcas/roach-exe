@@ -2,8 +2,9 @@
 // storage goes through Store (Netlify Blobs in production).
 import { scoreAll, checkTasks } from './scoring.mjs';
 import { verifyClaimSig } from './sig.mjs';
+import * as X from './xauth.mjs';
 
-export const VERSION = '2.0.0-netlify';
+export const VERSION = '2.2.0-netlify';
 const HANDLE_RE = /^[A-Za-z0-9_]{1,15}$/;
 const ADDR_RE = /^0x[a-fA-F0-9]{40}$/;
 const SOL_RE = /^[1-9A-HJ-NP-Za-km-z]{32,44}$/;
@@ -45,11 +46,56 @@ export function createApi({ store, cfg, env }) {
     try { return s ? JSON.parse(s) : {}; } catch { throw Object.assign(new Error('bad json'), { code: 400 }); }
   };
 
+  const xAuthOn = () => cfg.requireXAuth && X.configured(env);
+  const redirect = (loc, headers = {}) => new Response(null, { status: 302, headers: { location: loc, 'cache-control': 'no-store', ...headers } });
+  const safeRet = (r) => (r && /^\/(?!\/)[^\s]*$/.test(r) ? r.slice(0, 300) : '/');
+  const withQ = (path, k, v) => { const u = new URL(path, 'https://x.local'); u.searchParams.set(k, v); return u.pathname + u.search + (u.hash || '#offering'); };
+  const xSession = async (req) => {
+    const sid = X.sidFrom(env, req); if (!sid) return null;
+    const s = await store.kv.get('xs/' + sid);
+    return s && Date.now() - s.at < X.SESSION_MS ? s : null;
+  };
+
   async function route(req, ip) {
     const url = new URL(req.url);
     const p = url.pathname.replace(/\/+$/, '');
     if (req.method === 'OPTIONS') return send(204, '');
-    if (p === '/api/health') return send(200, { ok: true, version: VERSION, pool: await pool() });
+    if (p === '/api/health') return send(200, { ok: true, version: VERSION, pool: await pool(), x: { auth: xAuthOn(), account: cfg.x.account || '', postId: cfg.x.postId || '', requireTasks: !!cfg.x.requireTasks } });
+
+    /* ---------- Connect X (Sign in with X) ---------- */
+    if (p === '/api/x/login' && req.method === 'GET') {
+      if (!X.configured(env)) return send(503, { error: 'x_not_configured', message: 'X sign-in is not set up yet.' });
+      if (await store.limited('xl:' + ip, 30, 3600e3)) return send(429, { error: 'rate_limited', message: 'Too many attempts. Try again later.' });
+      const ret = safeRet(url.searchParams.get('ret'));
+      try {
+        const rt = await X.requestToken(env, url.origin + '/api/x/callback');
+        await store.kv.set('ot/' + rt.token, { secret: rt.secret, ret, at: Date.now() });
+        return redirect(X.authorizeUrl(rt.token));
+      } catch (e) { console.error('x login:', e.message); return redirect(withQ(ret, 'xerr', 'unavailable')); }
+    }
+    if (p === '/api/x/callback' && req.method === 'GET') {
+      const tok = url.searchParams.get('oauth_token') || url.searchParams.get('denied') || '';
+      const pend = tok ? await store.kv.get('ot/' + tok) : null;
+      if (tok) await store.kv.del('ot/' + tok);
+      const ret = pend ? pend.ret : '/';
+      if (url.searchParams.get('denied')) return redirect(withQ(ret, 'xerr', 'denied'));
+      if (!pend || Date.now() - pend.at > 15 * 60e3 || !url.searchParams.get('oauth_verifier')) return redirect(withQ(ret, 'xerr', 'expired'));
+      try {
+        const a = await X.accessToken(env, tok, pend.secret, url.searchParams.get('oauth_verifier'));
+        if (!a.handle || !a.userId) throw new Error('no user in access token response');
+        const sid = X.newSid();
+        await store.kv.set('xs/' + sid, { userId: a.userId, handle: a.handle, token: a.token, secret: a.secret, at: Date.now() });
+        return redirect(withQ(ret, 'x', 'ok'), { 'set-cookie': X.cookieFor(env, sid) });
+      } catch (e) { console.error('x callback:', e.message); return redirect(withQ(ret, 'xerr', 'failed')); }
+    }
+    if (p === '/api/x/me') {
+      const sess = await xSession(req);
+      return sess ? send(200, { handle: sess.handle, userId: sess.userId }) : send(401, { error: 'not_connected' });
+    }
+    if (p === '/api/x/logout' && req.method === 'POST') {
+      const sid = X.sidFrom(env, req); if (sid) await store.kv.del('xs/' + sid);
+      return send(200, { ok: true }, { 'set-cookie': X.cookieFor(env, '') });
+    }
     if (p === '/api/stats') return send(200, await pool());
 
     if (p === '/api/score' && req.method === 'POST') {
@@ -66,7 +112,10 @@ export function createApi({ store, cfg, env }) {
 
     if (p === '/api/claim' && req.method === 'POST') {
       const b = await readBody(req);
-      const handleRaw = normHandle(b.handle), handle = handleRaw.toLowerCase(), pw = parseWallet(b), { wallet, chain } = pw;
+      // with Connect X on, the handle comes from the signed-in X session, never from the request body
+      const sess = xAuthOn() ? await xSession(req) : null;
+      if (xAuthOn() && !sess) return send(401, { error: 'x_required', message: 'Connect your X account to claim.' });
+      const handleRaw = sess ? sess.handle : normHandle(b.handle), handle = handleRaw.toLowerCase(), pw = parseWallet(b), { wallet, chain } = pw;
       if (!HANDLE_RE.test(handleRaw)) return send(400, { error: 'bad_handle', message: 'Use letters, numbers and underscores, up to 15 characters.' });
       if (pw.error) return send(400, { error: 'bad_wallet', message: pw.error });
       const dest = 'trade'; // the offering always lands on the trading balance
@@ -86,12 +135,15 @@ export function createApi({ store, cfg, env }) {
       if (!(await pool()).open) return send(409, { error: 'pool_closed', message: 'The offering pool is fully reserved.' });
 
       // scoring and X task checks run in parallel to stay inside the function time limit
-      const [s, tc] = await Promise.all([score(handleRaw, wallet, chain), checkTasks(handleRaw, cfg, env)]);
+      const [s, tc, liked] = await Promise.all([score(handleRaw, wallet, chain), checkTasks(handleRaw, cfg, env),
+        sess && cfg.x.postId ? X.likedPost(env, sess, cfg.x.postId) : Promise.resolve(undefined)]);
+      if (liked !== undefined) { tc.checked = true; tc.out.like = liked; }
       const tasks = Object.fromEntries(['follow', 'like', 'rt'].map((k) => [k, !!(b.tasks && b.tasks[k])]));
       let tasksVerified = false;
       if (tc.checked) {
         const need = [];
         if (cfg.x.account && tc.out.follow === false) need.push('follow @' + cfg.x.account);
+        if (cfg.x.postId && tc.out.like === false) need.push('like the launch post');
         if (cfg.x.postId && tc.out.rt === false) need.push('repost the launch post');
         if (cfg.x.requireTasks && need.length) return send(409, { error: 'tasks_incomplete', message: `Almost there: ${need.join(' and ')}, then claim again.`, missing: need });
         tasksVerified = !need.length && Object.values(tc.out).every((v) => v !== null);
@@ -118,7 +170,7 @@ export function createApi({ store, cfg, env }) {
         }
       }
       const rec = await store.put({
-        handle, handleDisplay: handleRaw, wallet, chain, dest, design: String(b.design || '').slice(0, 20), amt, total: s.total, rows: s.rows,
+        handle, handleDisplay: handleRaw, xId: sess ? sess.userId : null, xVerified: !!sess, wallet, chain, dest, design: String(b.design || '').slice(0, 20), amt, total: s.total, rows: s.rows,
         flags, tasks, tasksVerified, ip, ua: String(req.headers.get('user-agent') || '').slice(0, 160), refBy, refBonus, at: new Date().toISOString(),
       });
       return send(201, { ...(await pub(rec)), pool: await pool() });

@@ -86,7 +86,7 @@ a{color:inherit}
 .win-bar .sq i:first-child{background:var(--dim)}
 .win-bar .ttl{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
 .win-bar .r{margin-left:auto;display:flex;gap:8px;align-items:center;flex:none}
-.sim{font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;border:1px dashed var(--dim);color:var(--mid);padding:0 6px;white-space:nowrap;line-height:16px}
+.sim,.chip{font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;border:1px dashed var(--dim);color:var(--mid);padding:0 6px;white-space:nowrap;line-height:16px}
 .live{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--hi);white-space:nowrap}
 .live::before{content:"";display:inline-block;width:6px;height:6px;background:var(--hi);margin-right:5px;animation:blink 1s steps(1) infinite}
 
@@ -104,8 +104,6 @@ h1.mark .cur{display:inline-block;width:.45em;height:.74em;background:var(--hi);
 .prompt{margin-top:30px;font-size:13px;color:var(--dim)}
 .prompt span{color:var(--fg)}
 .prompt i{display:inline-block;width:8px;height:14px;background:var(--fg);vertical-align:-2px;margin-left:2px;animation:blink 1s steps(1) infinite}
-.simnote{margin-top:14px;font-size:11px;color:var(--dim);max-width:48ch;display:flex;gap:8px;align-items:flex-start}
-.simnote .sim{flex:none;margin-top:1px}
 
 .arena{position:relative;height:clamp(300px,40vw,440px);overflow:hidden;background:#0b0b0b;cursor:crosshair;touch-action:pan-y;user-select:none;-webkit-user-select:none}
 .arena canvas{display:block;image-rendering:pixelated;image-rendering:crisp-edges}
@@ -127,7 +125,7 @@ h1.mark .cur{display:inline-block;width:.45em;height:.74em;background:var(--hi);
 .vital:last-child{border-right:0}
 .vital .k{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);display:flex;flex-wrap:wrap;justify-content:space-between;gap:4px 6px;white-space:nowrap}
 .vital .v{font-family:var(--f-pixel);font-size:clamp(12px,1.05vw,16px);color:var(--hi);margin-top:6px;overflow-wrap:anywhere;font-variant-numeric:tabular-nums;line-height:1.25}
-.vital .v.big{font-size:22px}
+.vital .v.big{font-size:clamp(15px,1.5vw,22px);white-space:nowrap;overflow-wrap:normal}
 .meter{height:10px;margin-top:11px;background:repeating-linear-gradient(90deg,var(--line2) 0 5px,transparent 5px 7px)}
 .meter i{display:block;height:100%;width:50%;background:repeating-linear-gradient(90deg,var(--hi) 0 5px,transparent 5px 7px);transition:width .5s steps(6)}
 .vital canvas{display:block;width:100%;height:26px;image-rendering:pixelated;margin-top:6px}
@@ -256,7 +254,7 @@ tr.me .tagw{border-color:var(--hi);color:var(--hi)}
 .task.done .box{color:var(--hi)}
 .task .acts{display:flex;gap:6px}
 .perm{padding:2px 14px 14px;font-size:11px;color:var(--dim);display:grid;gap:8px}
-.perm-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:4px}
+.perm-bar{display:grid;grid-template-columns:repeat(2,1fr);gap:4px}
 .perm-bar i{height:10px;border:1px solid var(--line2)}
 .perm-bar i.on{background:var(--hi);border-color:var(--hi)}
 .vault{position:relative;min-height:470px;overflow:hidden}
@@ -276,9 +274,34 @@ tr.me .tagw{border-color:var(--hi);color:var(--hi)}
 .pf .empty{padding:10px 14px;font-size:12px;color:var(--dim)}
 .pf-foot{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 14px;border-top:1px solid var(--line);font-size:11px;color:var(--dim);flex-wrap:wrap}
 
+
+/* wallets */
+.wallets{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:16px;align-items:start}
+.tfeed{height:460px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--line2) transparent}
+.post{padding:12px 14px;border-bottom:1px dashed var(--line);font-size:12px;line-height:1.6;color:var(--mid);animation:in .3s steps(3);min-width:0}
+.post .hd{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.post .hd b{font-family:var(--f-pixel);font-weight:400;font-size:14px;color:var(--hi);letter-spacing:.02em}
+.post .hd b em{font-style:normal;font-family:var(--f-mono);font-size:12px;color:var(--fg);margin-left:6px}
+.post .hd time{font-size:10px;color:var(--dim);white-space:nowrap;font-variant-numeric:tabular-nums}
+.post.loss .hd b{color:var(--mid)}
+.post .th{font-style:italic;color:var(--fg)}
+.post code{display:block;font-size:11px;color:var(--fg);overflow-wrap:anywhere;margin-top:2px}
+.post .lk{display:flex;flex-wrap:wrap;gap:4px 10px;margin-top:4px}
+.post .lk a{color:var(--mid);text-underline-offset:3px}
+.post .lk a:hover{color:var(--hi)}
+.wfoot{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 14px;border-top:1px solid var(--line);font-size:11px;color:var(--dim)}
+.ra-body{padding:18px 16px;display:flex;flex-direction:column;gap:16px;min-height:380px}
+.ra-body pre{margin:0;font-family:var(--f-mono);font-size:12px;line-height:1.8;color:var(--mid);white-space:pre-wrap}
+.ra-body pre b{color:var(--fg);font-weight:500}
+.ra-body p{margin:0;color:var(--mid);font-size:13px;max-width:44ch}
+.feed-empty{padding:18px 14px;color:var(--dim);font-size:12px}
+@media(max-width:900px){.wallets{grid-template-columns:minmax(0,1fr)}.tfeed{height:400px}}
+
 /* token */
 .token{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px 48px;align-items:end;padding:clamp(20px,4vw,44px)}
-.ticker{font-family:var(--f-pixel);font-weight:400;font-size:clamp(64px,12vw,168px);line-height:.85;color:var(--hi);margin:12px 0 0;letter-spacing:-.02em}
+.token>div{min-width:0}
+.token>div:first-child{container-type:inline-size}
+.ticker{font-family:var(--f-pixel);font-weight:400;font-size:clamp(44px,15cqi,168px);line-height:.85;color:var(--hi);margin:12px 0 0;letter-spacing:-.02em}
 .token p{color:var(--mid);margin:0 0 6px;max-width:46ch}
 .ca{display:flex;border:1px solid var(--line2);margin:18px 0}
 .ca .k{padding:12px;font-size:10px;letter-spacing:.12em;color:var(--dim);border-right:1px solid var(--line2);display:grid;place-items:center;flex:none}
@@ -334,9 +357,9 @@ footer p{margin:0;max-width:70ch}
       <span class="md">state <b id="barState">booting</b></span>
     </div>
     <nav aria-label="Sections">
-      <a href="#nest">nest</a><a href="#unlock">unlock</a><a href="#brain">brain</a><a href="#feeds">senses</a><a href="#loop">loop</a><a href="#token">$ROACH</a>
+      <a href="#nest">nest</a><a href="#trades">trades</a><a href="#brain">brain</a><a href="#feeds">senses</a><a href="#loop">loop</a><a href="#token">$ROACH</a>
     </nav>
-    <a class="btn" href="#unlock">Unlock PnL</a>
+    <a class="btn" href="https://t.me/+nsDDZOfXbPNiNjll" target="_blank" rel="noopener">Join Telegram</a>
   </div>
 </header>
 
@@ -349,16 +372,15 @@ footer p{margin:0;max-width:70ch}
       <h1 class="mark"><span id="markTxt">roach.exe</span><span class="cur" aria-hidden="true"></span></h1>
       <p class="lede">An AI cockroach that lives in the <b>pump.fun trenches</b>. It watches the trenches through GMGN and Dexscreener around the clock, bites the coins that smell right and <b>scatters before the lights come on</b>.</p>
       <div class="ctas">
-        <a class="btn" href="#unlock">Unlock the PnL</a>
-        <a class="btn ghost" href="#brain">Watch it think</a>
+        <a class="btn" id="ctaTg" href="https://t.me/+nsDDZOfXbPNiNjll" target="_blank" rel="noopener">Follow the trades in Telegram</a>
+        <a class="btn ghost" href="#trades">Watch it trade</a>
       </div>
       <div class="prompt">&gt; <span id="motd">study the cockroach</span><i aria-hidden="true"></i></div>
-      <div class="simnote"><span class="sim wal" id="simnoteBadge">sim</span><span id="simnoteTxt">Trading feeds and numbers on this page run in simulation until the live trading APIs are connected.</span></div>
     </div>
 
     <div>
       <div class="win">
-        <div class="win-bar"><span class="sq" aria-hidden="true"><i></i><i></i><i></i></span><span class="ttl">~/nest — roach.exe (live process)</span><span class="r"><span class="sim">sim</span><span class="live">live</span></span></div>
+        <div class="win-bar"><span class="sq" aria-hidden="true"><i></i><i></i><i></i></span><span class="ttl">~/nest — roach.exe (live process)</span><span class="r"><span class="live">live</span></span></div>
         <div class="arena" id="arena" role="img" aria-label="A pixel-art cockroach crawling around its nest, sniffing memecoin candles and deciding which ones to buy. Move your cursor near it and it runs away.">
           <canvas id="arenaCv"></canvas>
           <div class="boot" id="boot"></div>
@@ -378,39 +400,37 @@ footer p{margin:0;max-width:70ch}
         <div class="vital"><div class="k">mood</div><div class="v" id="vMood">curious</div></div>
         <div class="vital"><div class="k"><span>hunger</span><span id="vHungerN">50%</span></div><div class="meter"><i id="vHunger"></i></div></div>
         <div class="vital"><div class="k"><span>pulse</span><span id="vBpm">66 bpm</span></div><canvas id="ecg" width="100" height="26" aria-hidden="true"></canvas></div>
-        <div class="vital wide"><div class="k"><span>public roi</span><span class="sim wal">sim</span></div><div class="v big" id="vRoi">+0.0%</div></div>
+        <div class="vital wide"><div class="k"><span>test roi</span></div><div class="v big" id="vRoi">+0.0%</div></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ============ UNLOCK ============ -->
-<section class="blk" id="unlock">
+<!-- ============ WALLETS ============ -->
+<section class="blk" id="trades">
   <div class="wrap">
     <div class="sec-head">
-      <div><div class="cmd">~/roach $ <b>sudo cat portfolio.db</b></div><h2>ROI is public. The rest is earned.</h2></div>
-      <p>Anyone can see how the roach is doing overall. Open positions, PnL and the full trade history unlock after four quick tasks on X and Telegram.</p>
+      <div><div class="cmd">~/roach $ <b>ls ./wallets</b></div><h2>Watch it trade.</h2></div>
+      <p>Every bite, trim and scatter lands here the moment it happens. It is the same feed the Telegram channel gets.</p>
     </div>
-    <div class="unlock">
-      <div class="unlock-l">
-        <div class="win">
-          <div class="win-bar"><span class="sq" aria-hidden="true"><i></i><i></i><i></i></span><span class="ttl">public.roi</span><span class="r"><span class="sim wal">sim</span><span class="live">live</span></span></div>
-          <div class="roi-card">
-            <div><div class="k">all-time roi</div><div class="big" id="roiBig">+0.0%</div></div>
-            <small>Visible to everyone. Updated every second from the roach's wallet.</small>
-          </div>
-        </div>
-        <div class="win">
-          <div class="win-bar"><span class="sq" aria-hidden="true"><i></i><i></i><i></i></span><span class="ttl">access.tasks</span><span class="r"><span id="permTxt" class="sim">level 0/4</span></span></div>
-          <div class="tasks" id="tasks"></div>
-          <div class="perm"><div class="perm-bar" id="permBar"><i></i><i></i><i></i><i></i></div><span id="permHint">Open each task, do it, then press Verify.</span></div>
-        </div>
+    <div class="wallets">
+      <div class="win">
+        <div class="win-bar"><span class="sq" aria-hidden="true"><i></i><i></i><i></i></span><span class="ttl">test_portfolio</span><span class="r"><span class="live" id="tpLive">live</span></span></div>
+        <div class="pf-sum"><div><span>equity</span><b id="tpEq">—</b></div><div><span>roi</span><b id="tpRoi">—</b></div><div><span>trades</span><b id="tpTr">—</b></div><div><span>win rate</span><b id="tpWr">—</b></div></div>
+        <div class="tfeed" id="tpFeed" aria-live="polite"><div class="feed-empty">Connecting to the nest…</div></div>
+        <div class="wfoot"><span id="tpOpen">open positions: —</span><a class="mini" id="tpTg" href="https://t.me/+nsDDZOfXbPNiNjll" target="_blank" rel="noopener">full feed in telegram</a></div>
       </div>
-      <div class="win vault" id="vault">
-        <div class="win-bar"><span class="sq" aria-hidden="true"><i></i><i></i><i></i></span><span class="ttl">portfolio.db</span><span class="r"><span class="sim wal">sim</span><span id="vaultState" class="sim">locked</span></span></div>
-        <pre class="scr" id="scr" aria-hidden="true"></pre>
-        <div class="deny" id="deny"><div class="box"><h3>Permission denied</h3><p id="denyTxt">Complete 4 of 4 tasks to read positions, PnL and trade history.</p></div></div>
-        <div class="pf" id="pf" hidden></div>
+      <div class="win">
+        <div class="win-bar"><span class="sq" aria-hidden="true"><i></i><i></i><i></i></span><span class="ttl">real_assets</span><span class="r"><span class="chip">pending</span></span></div>
+        <div class="pf-sum"><div><span>equity</span><b>—</b></div><div><span>roi</span><b>—</b></div><div><span>trades</span><b>—</b></div><div><span>win rate</span><b>—</b></div></div>
+        <div class="ra-body">
+          <pre><span>~/roach $</span> <b>./roach.exe --wallet live</b>
+wallet ........ <b>not attached yet</b>
+status ........ <b>waiting for the switch</b>
+feed .......... <b>same as test_portfolio, real money</b></pre>
+          <p>Real trades show up here once the live wallet goes on. Same roach, same rules, real SOL.</p>
+          <div><a class="mini solid" href="https://t.me/+nsDDZOfXbPNiNjll" target="_blank" rel="noopener">get pinged in telegram</a></div>
+        </div>
       </div>
     </div>
   </div>
@@ -425,11 +445,11 @@ footer p{margin:0;max-width:70ch}
     </div>
     <div class="brain">
       <div class="win">
-        <div class="win-bar"><span class="sq" aria-hidden="true"><i></i><i></i><i></i></span><span class="ttl">brain.log</span><span class="r"><span class="sim">sim</span><span class="live">streaming</span></span></div>
+        <div class="win-bar"><span class="sq" aria-hidden="true"><i></i><i></i><i></i></span><span class="ttl">brain.log</span><span class="r"><span class="live">streaming</span></span></div>
         <div class="log" id="log" aria-label="Live decision log" tabindex="0"></div>
       </div>
       <div class="win">
-        <div class="win-bar"><span class="sq" aria-hidden="true"><i></i><i></i><i></i></span><span class="ttl">ganglia — current evaluation</span><span class="r"><span class="sim">sim</span></span></div>
+        <div class="win-bar"><span class="sq" aria-hidden="true"><i></i><i></i><i></i></span><span class="ttl">ganglia — current evaluation</span><span class="r"></span></div>
         <div class="think">
           <div>
             <div class="q"><span>sniffing</span><span id="evalAt">--:--:--</span></div>
@@ -456,7 +476,7 @@ footer p{margin:0;max-width:70ch}
     </div>
     <div class="feeds">
       <div class="win chartw">
-        <div class="win-bar"><span class="sq" aria-hidden="true"><i></i><i></i><i></i></span><span class="ttl">dexscreener.feed — chart</span><span class="r"><span class="sim">sim</span><span class="live">live</span></span></div>
+        <div class="win-bar"><span class="sq" aria-hidden="true"><i></i><i></i><i></i></span><span class="ttl">dexscreener.feed — chart</span><span class="r"><span class="live">live</span></span></div>
         <div class="pair">
           <span class="sym" id="cSym">$----/SOL</span>
           <span class="px" id="cPx">$0.00</span>
@@ -469,7 +489,7 @@ footer p{margin:0;max-width:70ch}
         <div class="tfs"><div><span class="tfl">5m</span><b id="tf0">-</b></div><div><span class="tfl">1h</span><b id="tf1">-</b></div><div><span class="tfl">6h</span><b id="tf2">-</b></div><div><span class="tfl">24h</span><b id="tf3">-</b></div></div>
       </div>
       <div class="win pulsew">
-        <div class="win-bar"><span class="sq" aria-hidden="true"><i></i><i></i><i></i></span><span class="ttl" id="pulseTtl">axiom.pulse</span><span class="r"><span class="sim">sim</span><span class="live">live</span></span></div>
+        <div class="win-bar"><span class="sq" aria-hidden="true"><i></i><i></i><i></i></span><span class="ttl" id="pulseTtl">axiom.pulse</span><span class="r"><span class="live">live</span></span></div>
         <div class="pulse">
           <div class="pcol"><h4><span>new pairs</span><span id="pcN">0</span></h4><div id="pNew"></div></div>
           <div class="pcol"><h4><span>final stretch</span><span id="pcF">0</span></h4><div id="pFin"></div></div>
@@ -477,11 +497,11 @@ footer p{margin:0;max-width:70ch}
         </div>
       </div>
       <div class="win gmgnw">
-        <div class="win-bar"><span class="sq" aria-hidden="true"><i></i><i></i><i></i></span><span class="ttl">gmgn.smart_money — wallet tracker</span><span class="r"><span class="sim">sim</span><span class="live">live</span></span></div>
+        <div class="win-bar"><span class="sq" aria-hidden="true"><i></i><i></i><i></i></span><span class="ttl">gmgn.smart_money — wallet tracker</span><span class="r"><span class="live">live</span></span></div>
         <div class="tbl"><table><thead><tr><th>time</th><th>wallet</th><th>side</th><th>token</th><th class="r">sol</th><th class="r">mcap</th></tr></thead><tbody id="gmgn"></tbody></table></div>
       </div>
       <div class="win fomow">
-        <div class="win-bar"><span class="sq" aria-hidden="true"><i></i><i></i><i></i></span><span class="ttl" id="fomoTtl">fomo.social — what the crowd is buying</span><span class="r"><span class="sim">sim</span><span class="live">live</span></span></div>
+        <div class="win-bar"><span class="sq" aria-hidden="true"><i></i><i></i><i></i></span><span class="ttl" id="fomoTtl">fomo.social — what the crowd is buying</span><span class="r"><span class="live">live</span></span></div>
         <div class="fomo" id="fomo"></div>
       </div>
     </div>
@@ -545,8 +565,8 @@ footer p{margin:0;max-width:70ch}
           <div class="ca"><span class="k">CA</span><code id="caTxt">not deployed yet</code><button class="mini" id="caCopy" type="button" disabled>copy</button></div>
           <div class="linkrow">
             <a class="btn" id="lnPump" href="https://pump.fun/" target="_blank" rel="noopener">pump.fun</a>
-            <a class="btn ghost" id="lnX" href="https://x.com/" target="_blank" rel="noopener">X</a>
-            <a class="btn ghost" id="lnTg" href="https://t.me/" target="_blank" rel="noopener">Telegram</a>
+            <a class="btn ghost" id="lnX" href="https://x.com/roachexe" target="_blank" rel="noopener">X</a>
+            <a class="btn ghost" id="lnTg" href="https://t.me/+nsDDZOfXbPNiNjll" target="_blank" rel="noopener">Telegram</a>
           </div>
         </div>
       </div>
@@ -557,7 +577,7 @@ footer p{margin:0;max-width:70ch}
 
 <footer>
   <div class="wrap">
-    <p>roach.exe is an experimental autonomous trading agent. Nothing on this site is financial advice. Memecoins are extremely volatile and you can lose everything you put in. Data marked SIM is simulated.</p>
+    <p>roach.exe is an experimental autonomous trading agent. Nothing on this site is financial advice. Memecoins are extremely volatile and you can lose everything you put in. Until the live wallet is connected, the roach trades on paper and the performance shown comes from paper trading.</p>
     <p>roach.exe // pid 0x0AC4 // still alive</p>
   </div>
 </footer>
@@ -571,15 +591,13 @@ footer p{margin:0;max-width:70ch}
 const CONFIG={
   ticker:'$ROACH',
   contractAddress:'',               // paste the pump.fun CA at launch
-  xHandle:'@roach_exe',             // placeholder handle
+  xHandle:'@roachexe',
   links:{
-    x:'https://x.com/',             // X profile
-    xPinned:'https://x.com/',       // pinned post to repost
-    tgChannel:'https://t.me/',      // Telegram channel
-    tgChat:'https://t.me/',         // Telegram chat
+    x:'https://x.com/roachexe',     // X profile
+    tgChannel:'https://t.me/+nsDDZOfXbPNiNjll', // Roach Trader channel
     pump:'https://pump.fun/'        // token page
   },
-  apiBase:(location.hostname.endsWith('sslip.io')?'':'https://157-173-16-125.sslip.io')+'/api', // roach-core API; when it answers, the page switches from simulation to live data
+  apiBase:(location.hostname.endsWith('sslip.io')?'':'https://157-173-16-125.sslip.io')+'/api', // roach-core API
 };
 
 /* ================= utils ================= */
@@ -894,7 +912,7 @@ function arenaUpdate(dt,t){
       break;
     case 'eat':
       b.vT=0;b.a+=Math.sin(t*40)*.02;b.ant=20;
-      if(b.timer<=0){if(food&&!food.gone){if(LIVE){arenaThink(liveState&&liveState.holding.includes(food.tok.address)?'holding $'+food.tok.sym+'. watching the exit.':'bite signal on $'+food.tok.sym+'. wallet runs the final security sniff.',2600)}else openPos(food.tok);removeCoin(food);A.hunger=clamp(A.hunger-.45,0,1)}b.state='wander';b.timer=R(2,3);waypoint(b)}
+      if(b.timer<=0){if(food&&!food.gone){if(LIVE){arenaThink(liveState&&liveState.holding.includes(food.tok.address)?'holding $'+food.tok.sym+'. watching the exit.':'bite signal on $'+food.tok.sym+'. wallet runs the final security sniff.',2600)}else arenaThink('bite signal on $'+food.tok.sym+'. waiting for the nest to reconnect.',2400);removeCoin(food);A.hunger=clamp(A.hunger-.45,0,1)}b.state='wander';b.timer=R(2,3);waypoint(b)}
       break;
     case 'flee':b.vT=58;if(b.timer<=0){b.state='wander';b.turn=4;b.timer=R(1,2);waypoint(b)}break;
     case 'freeze':b.vT=0;b.ant=0;if(b.timer<=0){b.state='wander';b.timer=1}break;
@@ -1076,73 +1094,16 @@ function renderVitals(){
   const mood=st==='flee'?'startled':st==='freeze'?'paranoid':lastResult>30?'euphoric':lastResult<-15?'bruised':A.hunger>.75?'starving':book.open.length?'invested':'focused';
   $('#vMood').textContent=mood;
   $('#vHunger').style.width=(A.hunger*100).toFixed(0)+'%';$('#vHungerN').textContent=(A.hunger*100).toFixed(0)+'%';
-  const r=pct(roi());$('#vRoi').textContent=r;$('#roiBig').textContent=r;
+  const r=LIVE&&liveState?pct(roi()):'—';$('#vRoi').textContent=r;
   const b=A.bug;if(b){$('#stPos').textContent=pad(Math.max(0,Math.round(b.x)),3)+','+pad(Math.max(0,Math.round(b.y)),3);$('#stHead').textContent=pad(((Math.round(b.a/D2R)%360)+360)%360,3)+'°';$('#stTarget').textContent=b.food?'$'+b.food.tok.sym:book.open[0]?'holding $'+book.open[0].sym:'none'}
-  $('#stBites').textContent=LIVE&&liveState?liveState.bites:book.bites;
+  $('#stBites').textContent=LIVE&&liveState?liveState.bites:'—';
 }
 const t0=Date.now();
 function renderUptime(){const s=Math.floor((Date.now()-t0)/1000);$('#uptime').textContent=pad(Math.floor(s/3600))+':'+pad(Math.floor(s/60)%60)+':'+pad(s%60)}
 
-/* ================= unlock ================= */
-const TASKS=[
-  {id:'follow',label:'Follow '+CONFIG.xHandle+' on X',sub:'so the roach knows you',href:CONFIG.links.x},
-  {id:'repost',label:'Repost the pinned post',sub:'spread the scent',href:CONFIG.links.xPinned},
-  {id:'channel',label:'Join the Telegram channel',sub:'trade alerts land here',href:CONFIG.links.tgChannel},
-  {id:'chat',label:'Join the Telegram chat',sub:'say gm to the nest',href:CONFIG.links.tgChat}
-];
-const KEY='roachexe.access.v1';let TS={};
-try{TS=JSON.parse(localStorage.getItem(KEY)||'{}')||{}}catch(e){TS={}}
-const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(TS))}catch(e){}};
-const doneCount=()=>TASKS.filter(t=>TS[t.id]==='done').length;
-function renderTasks(){
-  $('#tasks').innerHTML=TASKS.map(t=>{const s=TS[t.id]||'todo';const box=s==='done'?'[x]':s==='verifying'?'[~]':s==='opened'?'[·]':'[ ]';
-    return '<div class="task'+(s==='done'?' done':'')+'"><span class="box">'+box+'</span><span class="lbl">'+t.label+'<small>'+(s==='verifying'?'checking…':s==='done'?'verified':t.sub)+'</small></span><span class="acts"><a class="mini" href="'+t.href+'" target="_blank" rel="noopener" data-open="'+t.id+'">open</a><button type="button" class="mini solid" data-ver="'+t.id+'"'+(s==='done'||s==='verifying'?' disabled':'')+'>'+(s==='done'?'done':'verify')+'</button></span></div>'}).join('');
-  const n=doneCount();[...$('#permBar').children].forEach((el,i)=>el.classList.toggle('on',i<n));
-  $('#permTxt').textContent='level '+n+'/4';
-  $('#permHint').textContent=n===4?'Access granted. portfolio.db is readable.':'Open each task, do it, then press Verify.';
-  $('#denyTxt').textContent='Complete '+(4-n)+' more task'+(4-n===1?'':'s')+' to read positions, PnL and trade history.';
-}
-$('#tasks').addEventListener('click',e=>{
-  const o=e.target.closest('[data-open]'),v=e.target.closest('[data-ver]');
-  if(o){const id=o.dataset.open;if(TS[id]!=='done'){TS[id]='opened';save();setTimeout(renderTasks,50)}}
-  if(v){const id=v.dataset.ver;if(!TS[id]||TS[id]==='todo'){toast('Open the task first, then press Verify.');return}
-    TS[id]='verifying';renderTasks();
-    setTimeout(()=>{TS[id]='done';save();renderTasks();log('ROACH','access task verified · level '+doneCount()+'/4');if(doneCount()===4)unlock(true)},R(1300,2200))}
-});
-const scr=$('#scr');const SG='░▒▓█<>/\\#*01$%';let unlocked=false;
-function fakeLines(){const out=[];out.push('EQUITY      ██.██ SOL    REALIZED  +█.██    WIN ██%');out.push('');out.push('OPEN POSITIONS');for(let i=0;i<4;i++)out.push('$'+'█'.repeat(RI(4,8)).padEnd(10)+'  █.██ SOL   entry $██.█k   '+(Math.random()<.5?'+':'-')+'██.█%');out.push('');out.push('TRADE HISTORY');for(let i=0;i<9;i++)out.push('$'+'█'.repeat(RI(4,8)).padEnd(10)+'  █.██ SOL   '+(Math.random()<.5?'+':'-')+'██.█%   ██m ago');return out}
-let scrLines=fakeLines();
-function scrStep(){if(unlocked)return;scr.textContent=scrLines.map(l=>[...l].map(ch=>ch==='█'||(ch!==' '&&Math.random()<.08)?pick(SG):ch).join('')).join('\n')}
-function pfData(){
-  if(LIVE)return livePf;
-  const real=book.closed.reduce((s,c)=>s+c.size*c.pct/100,0),unr=book.open.reduce((s,p)=>s+p.size*p.u/100,0);
-  const wins=book.closed.filter(c=>c.pct>0).length;
-  return {equity:equity(),realizedSol:real,unrealizedSol:unr,winRate:book.closed.length?wins/book.closed.length*100:0,trades:book.closed.length,
-    open:book.open.map(p=>({sym:p.sym,sizeSol:p.size,entryMcap:p.entry,nowMcap:p.tok.mcap,movePct:p.u,openedAt:p.t})),
-    history:book.closed.map(c=>({sym:c.sym,sizeSol:c.size,pnlPct:c.pct,pnlSol:c.size*c.pct/100,closedAt:c.t}))};
-}
-function renderPf(){
-  const pf=$('#pf'),d=pfData();if(!d){pf.innerHTML='<div class="empty">Loading the wallet…</div>';return}
-  const foot=LIVE?(liveState&&liveState.mode==='paper'?'Paper wallet: real market data and real decisions, simulated money.':'Live wallet.'):'Simulated wallet. Real data appears here once the trading APIs are live.';
-  pf.innerHTML='<div class="pf-sum"><div><span>equity</span><b>'+d.equity.toFixed(2)+' SOL</b></div><div><span>realized</span><b>'+sol(d.realizedSol)+'</b></div><div><span>unrealized</span><b>'+sol(d.unrealizedSol)+'</b></div><div><span>win rate</span><b>'+(+d.winRate).toFixed(0)+'%</b></div></div>'
-  +'<h5><span>open positions</span><span>'+d.open.length+'</span></h5>'+(d.open.length?'<div class="tbl"><table><thead><tr><th>token</th><th class="r">size</th><th class="r">entry mc</th><th class="r">now mc</th><th class="r">move</th><th class="r">held</th></tr></thead><tbody>'+d.open.map(p=>'<tr><td class="hi">$'+esc(p.sym)+'</td><td class="r">'+p.sizeSol.toFixed(2)+'</td><td class="r">'+usd(p.entryMcap)+'</td><td class="r">'+usd(p.nowMcap)+'</td><td class="r hi">'+pct(p.movePct)+'</td><td class="r">'+ago(Date.now()-p.openedAt)+'</td></tr>').join('')+'</tbody></table></div>':'<div class="empty">Flat. The roach is looking for its next bite.</div>')
-  +'<h5><span>trade history</span><span>'+d.trades+' trades</span></h5>'+(d.history.length?'<div class="tbl"><table><thead><tr><th>token</th><th class="r">size</th><th class="r">result</th><th class="r">pnl sol</th><th class="r">when</th></tr></thead><tbody>'+d.history.slice(0,8).map(c=>'<tr><td class="hi">$'+esc(c.sym)+'</td><td class="r">'+c.sizeSol.toFixed(2)+'</td><td class="r hi">'+pct(c.pnlPct)+'</td><td class="r">'+sol(c.pnlSol)+'</td><td class="r">'+ago(Date.now()-c.closedAt)+' ago</td></tr>').join('')+'</tbody></table></div>':'<div class="empty">No closed trades yet.</div>')
-  +'<div class="pf-foot"><span>'+foot+'</span><button type="button" class="mini" id="relock">lock again</button></div>';
-}
-function unlock(anim){
-  unlocked=true;$('#vaultState').textContent='unlocked';$('#deny').hidden=true;
-  const fin=()=>{scr.hidden=true;$('#pf').hidden=false;renderPf()};
-  if(!anim||REDUCE){fin();return}
-  const target='ACCESS GRANTED\n\nchmod +r portfolio.db … ok\ndecrypting positions … ok\ndecrypting trade history … ok';
-  const t1=performance.now();scr.style.color='var(--fg)';
-  (function st(n){const p=clamp((n-t1)/900,0,1);scr.textContent=[...target].map((ch,i)=>ch==='\n'||ch===' '||i<p*target.length?ch:pick(SG)).join('');if(p<1)requestAnimationFrame(st);else setTimeout(fin,500)})(t1);
-  toast('Access granted. Welcome to the nest.');
-}
-$('#pf').addEventListener('click',e=>{if(e.target.id==='relock'){TS={};save();unlocked=false;$('#pf').hidden=true;scr.hidden=false;scr.style.color='';$('#deny').hidden=false;$('#vaultState').textContent='locked';renderTasks();scrStep()}});
-
 /* ================= token block ================= */
 if(CONFIG.contractAddress){$('#caTxt').textContent=CONFIG.contractAddress;$('#caTxt').style.color='var(--fg)';const cb=$('#caCopy');cb.disabled=false;cb.addEventListener('click',()=>{navigator.clipboard.writeText(CONFIG.contractAddress).then(()=>toast('Contract address copied.'),()=>{const s=getSelection(),r=document.createRange();r.selectNodeContents($('#caTxt'));s.removeAllRanges();s.addRange(r);toast('Press copy on your keyboard to finish.')})})}
-$('#lnPump').href=CONFIG.links.pump;$('#lnX').href=CONFIG.links.x;$('#lnTg').href=CONFIG.links.tgChannel;
+$('#ctaTg').href=CONFIG.links.tgChannel;$('#lnPump').href=CONFIG.links.pump;$('#lnX').href=CONFIG.links.x;$('#lnTg').href=CONFIG.links.tgChannel;
 
 /* ================= logo, favicon, specimen ================= */
 (function logo(){const c=$('#logoCv').getContext('2d');c.fillStyle='#080808';c.fillRect(0,0,40,40);drawRoach(c,20,23,0,1.2,0,0,0);})();
@@ -1153,13 +1114,10 @@ function specDraw(t){spc.fillStyle='#0b0b0b';spc.fillRect(0,0,64,64);spc.fillSty
 let last=performance.now();
 function frame(n){const dt=Math.min(.05,(n-last)/1000);last=n;const t=n/1000;
   arenaUpdate(dt,t);arenaDraw(t);crawlStep(dt,t);gangStep(dt);ecgStep(dt);specDraw(t);requestAnimationFrame(frame)}
-function second(){tickPool();tickBook();chartTick();renderPulse();renderVitals();renderUptime();if(unlocked&&!$('#pf').hidden)renderPf()}
+function second(){tickPool();tickBook();chartTick();renderPulse();renderVitals();renderUptime()}
 
 sizeArena();sizeCrawl();
 addEventListener('resize',()=>{sizeArena();sizeCrawl();drawChart()});
-renderTasks();scrStep();
-if(doneCount()===4)unlock(false);
-setInterval(scrStep,140);
 // idle thoughts
 setInterval(()=>{if(A.bug&&A.bug.state==='wander'&&Math.random()<.35&&!bubble.textContent.includes('$'))arenaThink(pick(IDLE),2400)},9000);
 if(!REDUCE)setInterval(()=>scramble($('#markTxt'),'roach.exe',380),7000);
@@ -1169,6 +1127,7 @@ boot();
 requestAnimationFrame(frame);
 
 function startSim(){
+  feedOffline();
   chartFocus(alive('final')[0]);
   for(let i=0;i<6;i++)gmgnRow();for(let i=0;i<5;i++)fomoItem();
   log('PUMP','pump.fun stream attached · watching new mints');log('GMGN','smart money tracker attached · '+wallets.length+' wallets');log('AXIOM','pulse attached · new / final stretch / migrated');log('DEXSCR','chart feed attached');log('FOMO','social feed attached');
@@ -1210,6 +1169,35 @@ function applyState(st){
   }
   renderPulse();
 }
+
+/* ================= trade feed (test_portfolio) ================= */
+const tpFeedEl=$('#tpFeed');const tpSeen=new Set();let tpBuyUrl='';
+const durS=ms=>{const s=Math.round(ms/1000);return s<60?s+'s':s<3600?Math.floor(s/60)+'m '+(s%60)+'s':Math.floor(s/3600)+'h '+Math.floor(s/60%60)+'m'};
+const hm=t=>new Date(t).toTimeString().slice(0,5);
+function postHtml(f){
+  const sym='$'+esc(f.sym||'?'),a=esc(f.address||'');
+  if(f.type==='buy'){
+    const links='<a href="https://gmgn.ai/sol/token/'+a+'" target="_blank" rel="noopener">GMGN</a><a href="https://dexscreener.com/solana/'+a+'" target="_blank" rel="noopener">Dexscreener</a>'+(tpBuyUrl?'<a href="'+esc(tpBuyUrl.replace(/\{ca\}/g,f.address||''))+'" target="_blank" rel="noopener">Based Bot</a>':'');
+    return '<article class="post"><div class="hd"><b>▲ BITE '+sym+'</b><time>'+hm(f.t)+'</time></div><div>size '+(+f.sizeSol).toFixed(2)+' SOL · mc '+usd(f.mcap||0)+'</div><div>scent '+(+f.score||0).toFixed(2)+(f.reason?' · '+esc(f.reason):'')+'</div>'+(f.thesis?'<div class="th">'+esc(f.thesis)+'</div>':'')+(a?'<code>'+a+'</code>':'')+(a?'<div class="lk">'+links+'</div>':'')+'</article>';
+  }
+  if(f.type==='trim')return '<article class="post"><div class="hd"><b>◆ TRIM '+sym+'<em>'+Math.round((f.part||0)*100)+'% at '+pct(+f.pct||0)+'</em></b><time>'+hm(f.t)+'</time></div><div>'+esc(f.why||'')+' · rest rides with a trailing stop</div></article>';
+  const win=(+f.pnlSol||0)>=0;
+  return '<article class="post'+(win?'':' loss')+'"><div class="hd"><b>'+(win?'▼':'✕')+' SCATTER '+sym+'<em>'+pct(+f.pct||0)+'</em></b><time>'+hm(f.t)+'</time></div><div>pnl '+sol(+f.pnlSol||0)+' SOL'+(f.held?' · held '+durS(f.held):'')+'</div><div>reason: '+esc(f.why||'')+'</div>'+(f.equity!=null?'<div>wallet '+(+f.equity).toFixed(2)+' SOL · ROI '+pct(+f.roi||0)+'</div>':'')+'</article>';
+}
+function renderFeed(d){
+  tpBuyUrl=d.buyUrl||'';
+  $('#tpEq').textContent=(+d.equity).toFixed(2)+' SOL';$('#tpRoi').textContent=pct(+d.roi);$('#tpTr').textContent=d.trades;$('#tpWr').textContent=(+d.winRate).toFixed(0)+'%';
+  $('#tpOpen').textContent='open positions: '+(d.open?d.open.length:0)+(d.open&&d.open.length?' · '+d.open.map(p=>'$'+p.sym+' '+pct(p.movePct)).join(' · '):'');
+  const items=d.items||[];
+  if(!tpSeen.size){tpFeedEl.innerHTML=items.length?items.map(postHtml).join(''):'<div class="feed-empty">No trades yet. The roach is sniffing.</div>';items.forEach(f=>tpSeen.add(f.id));return}
+  const fresh=items.filter(f=>!tpSeen.has(f.id)).reverse();
+  if(fresh.length&&tpFeedEl.querySelector('.feed-empty'))tpFeedEl.innerHTML='';
+  for(const f of fresh){tpSeen.add(f.id);tpFeedEl.insertAdjacentHTML('afterbegin',postHtml(f))}
+  while(tpFeedEl.children.length>60)tpFeedEl.lastChild.remove();
+}
+async function pollFeed(){try{const r=await fetch(API+'/feed?limit=40',{cache:'no-store'});if(r.ok)renderFeed(await r.json())}catch(e){}}
+function feedOffline(){tpFeedEl.innerHTML='<div class="feed-empty">The nest is offline. The trade feed comes back when the roach reconnects.</div>';$('#tpLive').hidden=true}
+
 let lastLogId=0;
 function startLive(){
   LIVE=true;
@@ -1218,20 +1206,17 @@ function startLive(){
   logEl.innerHTML='';gm.innerHTML='';fo.innerHTML='';CH.c=[];CH.marks=[];drawChart();
   $('#fomoTtl').textContent='gmgn.kol — what KOL wallets are trading';$('#pulseTtl').textContent='gmgn.trenches — pump.fun pulse';
   document.querySelectorAll('.tfl').forEach((el,i)=>el.textContent=['5m','15m','30m','1h'][i]);
-  const paper=true;
-  document.querySelectorAll('.sim').forEach(el=>{if(el.classList.contains('wal'))el.textContent='paper';else el.hidden=true});
-  $('#simnoteTxt').textContent='Live market data from GMGN and Dexscreener. The wallet trades on paper for now: real decisions, simulated money.';
   log('ROACH','connected to roach-core · live feed');
-  const pollState=async()=>{try{const r=await fetch(API+'/state',{cache:'no-store'});applyState(await r.json());renderVitals();
-      if(liveState.mode!=='paper')document.querySelectorAll('.sim.wal').forEach(el=>el.hidden=true)}catch(e){}};
-  const pollPf=async()=>{if(!unlocked)return;try{const r=await fetch(API+'/portfolio',{cache:'no-store'});livePf=await r.json();if(!$('#pf').hidden)renderPf()}catch(e){}};
-  pollState();setInterval(pollState,2500);setInterval(pollPf,3000);pollPf();
+  const pollState=async()=>{try{const r=await fetch(API+'/state',{cache:'no-store'});applyState(await r.json());renderVitals()}catch(e){}};
+  pollFeed();setInterval(pollFeed,5000);
+  pollState();setInterval(pollState,2500);
   setInterval(()=>{renderVitals();renderUptime()},1000);
   try{
     const es=new EventSource(API+'/stream');
     es.addEventListener('log',ev=>{const e=JSON.parse(ev.data);if(e.id<=lastLogId)return;lastLogId=e.id;log(e.src,e.msg,e.cls,e.t)});
     es.addEventListener('eval',ev=>{const e=JSON.parse(ev.data);const b=A.bug;if(!b||!['sniff','judging'].includes(b.state))evaluate({sym:e.sym,ev:e})});
-    es.addEventListener('trade',ev=>{const e=JSON.parse(ev.data);if(e.side==='sell')lastResult=0;arenaThink(e.side==='buy'?'BITE $'+e.sym+'. '+(+e.sol).toFixed(2)+' SOL in.':'scattered from $'+e.sym+'.',2600);pollPf()});
+    es.addEventListener('feed',()=>pollFeed());
+    es.addEventListener('trade',ev=>{const e=JSON.parse(ev.data);if(e.side==='sell')lastResult=0;arenaThink(e.side==='buy'?'BITE $'+e.sym+'. '+(+e.sol).toFixed(2)+' SOL in.':'scattered from $'+e.sym+'.',2600)});
   }catch(e){}
 }
 detectLive().then(l=>l?startLive():startSim());
